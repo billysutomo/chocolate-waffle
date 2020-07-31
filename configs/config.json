@@ -1,16 +1,16 @@
 {
   "debug": true,
   "server": {
-    "address": ":9090"
+    "address": ":8080"
   },
   "context":{
     "timeout":2
   },
   "database": {
-      "host": "mysql",
-      "port": "3306",
-      "user": "user",
+      "host": "localhost",
+      "port": "5432",
+      "user": "billysutomo",
       "pass": "password",
-      "name": "article"
+      "name": "chocolate-waffle"
   }
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/url"
 
 	"github.com/jackc/pgx/v4"
 
@@ -17,9 +16,21 @@ import (
 )
 
 // URLStruct comment
-type URLStruct struct {
-	Slug string `json:"slug" validate:"required,slugcheck"`
-	URL  string `json:"url" validate:"required"`
+// type URLStruct struct {
+// 	Slug string `json:"slug" validate:"required,slugcheck"`
+// 	URL  string `json:"url" validate:"required"`
+// }
+
+func init() {
+	viper.SetConfigFile(`configs/config.json`)
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	if viper.GetBool(`debug`) {
+		log.Println("Service RUN on DEBUG mode")
+	}
 }
 
 func main() {
@@ -30,12 +41,13 @@ func main() {
 	dbUser := viper.GetString(`database.user`)
 	dbPass := viper.GetString(`database.pass`)
 	dbName := viper.GetString(`database.name`)
-	connection := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbHost, dbPort, dbName)
-	val := url.Values{}
-	val.Add("parseTime", "1")
-	val.Add("loc", "Asia/Jakarta")
-	dsn := fmt.Sprintf("%s?%s", connection, val.Encode())
-	dbConn, err := pgx.Connect(context.Background(), dsn)
+	connection := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
+	// val := url.Values{}
+	// val.Add("parseTime", "1")
+	// val.Add("loc", "Asia/Jakarta")
+	// dsn := fmt.Sprintf("%s?%s", connection, val.Encode())
+	log.Print(connection)
+	dbConn, err := pgx.Connect(context.Background(), connection)
 
 	if err != nil {
 		log.Fatal(err)
@@ -45,7 +57,7 @@ func main() {
 	urlUcase := _urlUcase.NewURLUsecase(urlRepo)
 	_urlHttpController.NewURLHandler(r, urlUcase)
 
-	r.Run()
+	r.Run(viper.GetString("server.address"))
 
 	// translator := en.New()
 	// uni := ut.New(translator, translator)
