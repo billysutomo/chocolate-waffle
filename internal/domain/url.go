@@ -7,7 +7,7 @@ type URL struct {
 }
 
 // URLService service
-type URLService interface {
+type URLUsecase interface {
 }
 
 // URLRepository repository

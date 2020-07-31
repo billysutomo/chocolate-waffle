@@ -9,7 +9,7 @@ type urlUsecase struct {
 }
 
 //NewURLUsecase user service
-func NewURLUsecase(a domain.URLRepository) domain.URLService {
+func NewURLUsecase(a domain.URLRepository) domain.URLUsecase {
 	return &urlUsecase{
 		urlRepo: a,
 	}

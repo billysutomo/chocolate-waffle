@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 
 	"github.com/gin-gonic/gin"
@@ -10,18 +11,18 @@ import (
 
 // ResponseError response error
 type ResponseError struct {
-	Message string `json:"message`
+	Message string `json:"message"`
 }
 
 // URLHandler article handler
 type URLHandler struct {
-	URLService domain.URLService
+	URLUsecase domain.URLUsecase
 }
 
 // NewURLHandler url handler
-func NewURLHandler(r *gin.Engine, do domain.URLService) {
+func NewURLHandler(r *gin.Engine, do domain.URLUsecase) {
 	handler := &URLHandler{
-		URLService: do,
+		URLUsecase: do,
 	}
 
 	r.POST("/url", handler.CreateURL)
