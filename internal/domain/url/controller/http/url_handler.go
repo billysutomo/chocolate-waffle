@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	domain "github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"

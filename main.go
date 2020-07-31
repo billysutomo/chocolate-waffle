@@ -10,10 +10,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 
-	_urlHttpController "github.com/billysutomo/chocolate-waffle/internal/url/controller/http"
-	_urlHttpDeliveryMiddleware "github.com/billysutomo/chocolate-waffle/internal/url/controller/http/middleware"
-	_urlRepository "github.com/billysutomo/chocolate-waffle/internal/url/repository/postgre"
-	_urlUcase "github.com/billysutomo/chocolate-waffle/internal/url/usecase"
+	_middleware "github.com/billysutomo/chocolate-waffle/internal/middleware"
+
+	_urlControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/url/controller/http"
+	_urlRepository "github.com/billysutomo/chocolate-waffle/internal/domain/url/repository/postgre"
+	_urlUcase "github.com/billysutomo/chocolate-waffle/internal/domain/url/usecase"
 )
 
 // URLStruct comment
@@ -54,12 +55,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	middl := _urlHttpDeliveryMiddleware.InitMiddleware()
+	middl := _middleware.InitMiddleware()
 	r.Use(middl.CORSMiddleware())
 
 	urlRepo := _urlRepository.NewPostgreURLRepository(dbConn)
 	urlUcase := _urlUcase.NewURLUsecase(urlRepo)
-	_urlHttpController.NewURLHandler(r, urlUcase)
+	_urlControllerHttp.NewURLHandler(r, urlUcase)
 
 	r.Run(viper.GetString("server.address"))
 
