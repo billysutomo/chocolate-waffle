@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/viper"
 
 	_urlHttpController "github.com/billysutomo/chocolate-waffle/internal/url/controller/http"
+	_urlHttpDeliveryMiddleware "github.com/billysutomo/chocolate-waffle/internal/url/controller/http/middleware"
 	_urlRepository "github.com/billysutomo/chocolate-waffle/internal/url/repository/postgre"
 	_urlUcase "github.com/billysutomo/chocolate-waffle/internal/url/usecase"
 )
@@ -52,6 +53,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	middl := _urlHttpDeliveryMiddleware.InitMiddleware()
+	r.Use(middl.CORSMiddleware())
 
 	urlRepo := _urlRepository.NewPostgreURLRepository(dbConn)
 	urlUcase := _urlUcase.NewURLUsecase(urlRepo)
