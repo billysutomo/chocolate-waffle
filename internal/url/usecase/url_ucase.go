@@ -4,13 +4,13 @@ import (
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 )
 
-type urlService struct {
+type urlUsecase struct {
 	urlRepo domain.URLRepository
 }
 
-//NewURLService user service
-func NewURLService(a domain.URLRepository) domain.URLService {
-	return &urlService{
+//NewURLUsecase user service
+func NewURLUsecase(a domain.URLRepository) domain.URLService {
+	return &urlUsecase{
 		urlRepo: a,
 	}
 }

@@ -1,15 +1,15 @@
 package postgre
 
 import (
-	"database/sql"
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"github.com/jackc/pgx/v4"
 )
 
 type postgreURLRepository struct {
-	Conn *sql.DB
+	Conn *pgx.Conn
 }
 
 // NewPostgreURLRepository aa
-func NewPostgreURLRepository(Conn *sql.DB) domain.URLRepository {
+func NewPostgreURLRepository(Conn *pgx.Conn) domain.URLRepository {
 	return &postgreURLRepository{Conn}
 }

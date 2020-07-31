@@ -1,10 +1,12 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"fmt"
 	"log"
 	"net/url"
+
+	"github.com/jackc/pgx/v4"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -33,15 +35,14 @@ func main() {
 	val.Add("parseTime", "1")
 	val.Add("loc", "Asia/Jakarta")
 	dsn := fmt.Sprintf("%s?%s", connection, val.Encode())
-	dbConn, err := sql.Open(`mysql`, dsn)
+	dbConn, err := pgx.Connect(context.Background(), dsn)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	urlRepo := _urlRepository.NewPostgreURLRepository(dbConn)
-
-	urlUcase := _urlUcase.NewURLService(urlRepo)
+	urlUcase := _urlUcase.NewURLUsecase(urlRepo)
 	_urlHttpController.NewURLHandler(r, urlUcase)
 
 	r.Run()

@@ -1,7 +1,5 @@
 package domain
 
-import "context"
-
 // URL url
 type URL struct {
 	Slug string `json:"slug" validate:"required,slugcheck"`
@@ -9,10 +7,10 @@ type URL struct {
 }
 
 // URLService service
-type URLService struct {
+type URLService interface {
 }
 
 // URLRepository repository
 type URLRepository interface {
-	Create(ctx context.Context)
+	// Create(ctx context.Context)
 }
