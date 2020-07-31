@@ -1,6 +1,7 @@
 package http
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
@@ -60,7 +61,12 @@ func getStatusCode(err error) int {
 // CreateURL create url
 func (a *URLHandler) CreateURL(r *gin.Context) {
 	var url model.URL
-	r.BindJSON(&url)
+	err := r.BindJSON(&url)
+
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
 	a.URLUsecase.GetURL(r.Request.Context(), "billy")
 	// if ok, err := isRequestValid(&url); !ok {
 	// 	r.JSON(http.StatusUnprocessableEntity, err.Error())
@@ -69,5 +75,4 @@ func (a *URLHandler) CreateURL(r *gin.Context) {
 	// ctx := r.Request().Context()
 	// err = a.
 	r.JSON(http.StatusCreated, url)
-	return
 }

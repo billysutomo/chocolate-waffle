@@ -2,7 +2,7 @@ package model
 
 // URL url
 type URL struct {
-	Slug string `json:"slug" validate:"required,slugcheck"`
+	Slug string `json:"slug" validate:"required"`
 	URL  string `json:"url" validate:"required"`
 }
 
