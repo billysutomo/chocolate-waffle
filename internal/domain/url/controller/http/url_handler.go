@@ -61,6 +61,7 @@ func getStatusCode(err error) int {
 func (a *URLHandler) CreateURL(r *gin.Context) {
 	var url model.URL
 	r.BindJSON(&url)
+	a.URLUsecase.GetURL(r.Request.Context(), "billy")
 	// if ok, err := isRequestValid(&url); !ok {
 	// 	r.JSON(http.StatusUnprocessableEntity, err.Error())
 	// }
@@ -68,4 +69,5 @@ func (a *URLHandler) CreateURL(r *gin.Context) {
 	// ctx := r.Request().Context()
 	// err = a.
 	r.JSON(http.StatusCreated, url)
+	return
 }
