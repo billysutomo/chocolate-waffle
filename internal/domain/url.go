@@ -6,7 +6,7 @@ type URL struct {
 	URL  string `json:"url" validate:"required"`
 }
 
-// URLService service
+// URLUsecase service
 type URLUsecase interface {
 }
 
