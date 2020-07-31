@@ -3,7 +3,8 @@ package http
 import (
 	"net/http"
 
-	domain "github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
+	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -28,7 +29,7 @@ func NewURLHandler(r *gin.Engine, do domain.URLUsecase) {
 	r.POST("/url", handler.CreateURL)
 }
 
-func isRequestValid(m *domain.URL) (bool, error) {
+func isRequestValid(m *model.URL) (bool, error) {
 	var v *validator.Validate
 	v = validator.New()
 	err := v.Struct(m)
@@ -44,11 +45,11 @@ func getStatusCode(err error) int {
 	}
 
 	switch err {
-	case domain.ErrInternalServerError:
+	case model.ErrInternalServerError:
 		return http.StatusInternalServerError
-	case domain.ErrNotFound:
+	case model.ErrNotFound:
 		return http.StatusNotFound
-	case domain.ErrConflict:
+	case model.ErrConflict:
 		return http.StatusConflict
 	default:
 		return http.StatusInternalServerError
@@ -58,7 +59,7 @@ func getStatusCode(err error) int {
 
 // CreateURL create url
 func (a *URLHandler) CreateURL(r *gin.Context) {
-	var url domain.URL
+	var url model.URL
 	r.BindJSON(&url)
 	// if ok, err := isRequestValid(&url); !ok {
 	// 	r.JSON(http.StatusUnprocessableEntity, err.Error())

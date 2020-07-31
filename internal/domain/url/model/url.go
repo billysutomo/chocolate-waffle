@@ -1,4 +1,4 @@
-package domain
+package model
 
 // URL url
 type URL struct {
@@ -6,11 +6,7 @@ type URL struct {
 	URL  string `json:"url" validate:"required"`
 }
 
-// URLUsecase service
-type URLUsecase interface {
-}
-
-// URLRepository repository
-type URLRepository interface {
-	// Create(ctx context.Context)
+// ResponseError response error
+type ResponseError struct {
+	Message string `json:"message"`
 }

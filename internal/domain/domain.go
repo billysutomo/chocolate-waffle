@@ -1,11 +1,5 @@
 package domain
 
-// URL url
-type URL struct {
-	Slug string `json:"slug" validate:"required,slugcheck"`
-	URL  string `json:"url" validate:"required"`
-}
-
 // URLUsecase service
 type URLUsecase interface {
 }
