@@ -17,20 +17,17 @@ import (
 	_urlUcase "github.com/billysutomo/chocolate-waffle/internal/domain/url/usecase"
 )
 
-// URLStruct comment
-// type URLStruct struct {
-// 	Slug string `json:"slug" validate:"required,slugcheck"`
-// 	URL  string `json:"url" validate:"required"`
-// }
-
 func init() {
-	viper.SetConfigFile(`configs/config.json`)
+	viper.SetConfigFile(`.env`)
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)
 	}
 
-	if viper.GetBool(`debug`) {
+	if viper.GetString("MODE") == "release" {
+		gin.SetMode(gin.ReleaseMode)
+		log.Println("Service RUN on RELEASE mode")
+	} else {
 		log.Println("Service RUN on DEBUG mode")
 	}
 }
@@ -38,16 +35,12 @@ func init() {
 func main() {
 	r := gin.Default()
 
-	dbHost := viper.GetString(`database.host`)
-	dbPort := viper.GetString(`database.port`)
-	dbUser := viper.GetString(`database.user`)
-	dbPass := viper.GetString(`database.pass`)
-	dbName := viper.GetString(`database.name`)
+	dbHost := viper.GetString(`DB_HOST`)
+	dbPort := viper.GetString(`DB_PORT`)
+	dbUser := viper.GetString(`DB_USER`)
+	dbPass := viper.GetString(`DB_PASS`)
+	dbName := viper.GetString(`DB_NAME`)
 	connection := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
-	// val := url.Values{}
-	// val.Add("parseTime", "1")
-	// val.Add("loc", "Asia/Jakarta")
-	// dsn := fmt.Sprintf("%s?%s", connection, val.Encode())
 	log.Print(connection)
 	dbConn, err := pgx.Connect(context.Background(), connection)
 
@@ -62,7 +55,7 @@ func main() {
 	urlUcase := _urlUcase.NewURLUsecase(urlRepo)
 	_urlControllerHttp.NewURLHandler(r, urlUcase)
 
-	r.Run(viper.GetString("server.address"))
+	r.Run(":" + viper.GetString("PORT"))
 
 	// translator := en.New()
 	// uni := ut.New(translator, translator)
