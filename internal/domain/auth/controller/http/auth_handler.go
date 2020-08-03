@@ -34,7 +34,7 @@ func NewURLHandler(r *gin.Engine) {
 	middle := _authMiddleware.InitMiddleware()
 
 	r.POST("/login", handler.Login)
-	r.POST("/private", handler.Private, middle.AuthRouteMiddleware())
+	r.POST("/private", middle.AuthRouteMiddleware(), handler.Private)
 }
 
 func isRequestValid(m *model.URL) (bool, error) {
