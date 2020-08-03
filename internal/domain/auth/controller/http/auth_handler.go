@@ -1,12 +1,10 @@
 package http
 
 import (
-	"log"
 	"net/http"
-	"time"
 
+	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
-	"github.com/dgrijalva/jwt-go"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -25,11 +23,14 @@ type RequestLogin struct {
 
 // URLHandler article handler
 type URLHandler struct {
+	AuthUsecase domain.AuthUsecase
 }
 
 // NewURLHandler url handler
-func NewURLHandler(r *gin.Engine) {
-	handler := &URLHandler{}
+func NewURLHandler(r *gin.Engine, do domain.AuthUsecase) {
+	handler := &URLHandler{
+		AuthUsecase: do,
+	}
 	// middle := _authMiddleware.InitMiddleware()
 
 	r.POST("/login", handler.Login)
@@ -68,27 +69,14 @@ func getStatusCode(err error) int {
 func (a *URLHandler) Login(r *gin.Context) {
 	var requestLogin RequestLogin
 	r.BindJSON(&requestLogin)
-	// Check in your db if the user exists or not
-	if requestLogin.Username == "jon" && requestLogin.Password == "password" {
-		// Create token
-		token := jwt.New(jwt.SigningMethodHS256)
-		// Set claims
-		// This is the information which frontend can use
-		// The backend can also decode the token and get admin etc.
-		claims := token.Claims.(jwt.MapClaims)
-		claims["name"] = "Jon Doe"
-		claims["admin"] = true
-		claims["exp"] = time.Now().Add(time.Minute * 15).Unix()
-		// Generate encoded token and send it as response.
-		// The signing string should be secret (a generated UUID          works too)
-		t, err := token.SignedString([]byte("secret"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		r.JSON(http.StatusOK, map[string]string{
-			"token": t,
-		})
-	} else {
-		r.JSON(http.StatusUnauthorized, ResponseError{Message: "Unauthorized"})
+
+	token, err := a.AuthUsecase.Login(r, requestLogin.Username, requestLogin.Password)
+
+	if err != nil {
+		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
+		return
 	}
+	r.JSON(http.StatusOK, map[string]string{
+		"token": token,
+	})
 }
