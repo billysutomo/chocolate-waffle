@@ -8,7 +8,6 @@ import (
 	"github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
 	"github.com/dgrijalva/jwt-go"
 
-	_authMiddleware "github.com/billysutomo/chocolate-waffle/internal/domain/auth/controller/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
@@ -31,10 +30,10 @@ type URLHandler struct {
 // NewURLHandler url handler
 func NewURLHandler(r *gin.Engine) {
 	handler := &URLHandler{}
-	middle := _authMiddleware.InitMiddleware()
+	// middle := _authMiddleware.InitMiddleware()
 
 	r.POST("/login", handler.Login)
-	r.POST("/private", middle.AuthRouteMiddleware(), handler.Private)
+	// r.POST("/private", middle.AuthRouteMiddleware(), handler.Private)
 }
 
 func isRequestValid(m *model.URL) (bool, error) {
@@ -92,9 +91,4 @@ func (a *URLHandler) Login(r *gin.Context) {
 	} else {
 		r.JSON(http.StatusUnauthorized, ResponseError{Message: "Unauthorized"})
 	}
-}
-
-// Private Private
-func (a *URLHandler) Private(r *gin.Context) {
-	r.JSON(http.StatusOK, ResponseError{Message: "Hola"})
 }
