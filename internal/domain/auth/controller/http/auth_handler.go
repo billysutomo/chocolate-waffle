@@ -6,6 +6,8 @@ import (
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
 
+	_middleware "github.com/billysutomo/chocolate-waffle/internal/middleware"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
@@ -21,20 +23,31 @@ type RequestLogin struct {
 	Password string `json:"password"`
 }
 
-// URLHandler article handler
-type URLHandler struct {
+// RequestRefreshToken RequestRefreshToken
+type RequestRefreshToken struct {
+	RefreshToken string `json:"refresh_token"`
+}
+
+// AuthHandler article handler
+type AuthHandler struct {
 	AuthUsecase domain.AuthUsecase
 }
 
 // NewURLHandler url handler
 func NewURLHandler(r *gin.Engine, do domain.AuthUsecase) {
-	handler := &URLHandler{
+	handler := &AuthHandler{
 		AuthUsecase: do,
 	}
-	// middle := _authMiddleware.InitMiddleware()
+	middle := _middleware.InitMiddleware()
 
 	r.POST("/login", handler.Login)
-	// r.POST("/private", middle.AuthRouteMiddleware(), handler.Private)
+	r.POST("/refresh-token", handler.RefreshToken)
+	r.POST("/private", middle.AuthRouteMiddleware(), handler.Private)
+}
+
+// Private Private
+func (a *AuthHandler) Private(r *gin.Context) {
+
 }
 
 func isRequestValid(m *model.URL) (bool, error) {
@@ -66,17 +79,35 @@ func getStatusCode(err error) int {
 }
 
 // Login login
-func (a *URLHandler) Login(r *gin.Context) {
+func (a *AuthHandler) Login(r *gin.Context) {
 	var requestLogin RequestLogin
 	r.BindJSON(&requestLogin)
 
-	token, err := a.AuthUsecase.Login(r, requestLogin.Username, requestLogin.Password)
+	token, refreshToken, err := a.AuthUsecase.Login(r, requestLogin.Username, requestLogin.Password)
 
 	if err != nil {
 		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
 		return
 	}
 	r.JSON(http.StatusOK, map[string]string{
-		"token": token,
+		"token":         token,
+		"refresh_token": refreshToken,
+	})
+}
+
+// RefreshToken RefreshToken
+func (a *AuthHandler) RefreshToken(r *gin.Context) {
+	var requestRefreshToken RequestRefreshToken
+	r.BindJSON(&requestRefreshToken)
+
+	token, refreshToken, err := a.AuthUsecase.RefreshToken(r, requestRefreshToken.RefreshToken)
+
+	if err != nil {
+		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
+		return
+	}
+	r.JSON(http.StatusOK, map[string]string{
+		"token":         token,
+		"refresh_token": refreshToken,
 	})
 }

@@ -4,7 +4,8 @@ import "context"
 
 // AuthUsecase AuthUsecase
 type AuthUsecase interface {
-	Login(ctx context.Context, username string, password string) (string, error)
+	Login(ctx context.Context, username string, password string) (string, string, error)
+	RefreshToken(ctc context.Context, refreshToken string) (string, string, error)
 }
 
 // URLUsecase service
