@@ -5,8 +5,7 @@ import (
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
-
-	_middleware "github.com/billysutomo/chocolate-waffle/internal/middleware"
+	"github.com/billysutomo/chocolate-waffle/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -33,16 +32,15 @@ type AuthHandler struct {
 	AuthUsecase domain.AuthUsecase
 }
 
-// NewURLHandler url handler
-func NewURLHandler(r *gin.Engine, do domain.AuthUsecase) {
+// NewAuthHandler url handler
+func NewAuthHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.AuthUsecase) {
 	handler := &AuthHandler{
 		AuthUsecase: do,
 	}
-	middle := _middleware.InitMiddleware()
 
 	r.POST("/login", handler.Login)
 	r.POST("/refresh-token", handler.RefreshToken)
-	r.POST("/private", middle.AuthRouteMiddleware(), handler.Private)
+	r.POST("/private", mid.AuthRouteMiddleware(), handler.Private)
 }
 
 // Private Private

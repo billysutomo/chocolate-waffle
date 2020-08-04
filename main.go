@@ -55,11 +55,11 @@ func main() {
 	r.Use(middl.CORSMiddleware())
 
 	authUcase := _authUcase.NewAuthUsecase()
-	_authControllerHttp.NewURLHandler(r, authUcase)
+	_authControllerHttp.NewAuthHandler(r, middl, authUcase)
 
 	urlRepo := _urlRepository.NewPostgreURLRepository(dbConn)
 	urlUcase := _urlUcase.NewURLUsecase(urlRepo)
-	_urlControllerHttp.NewURLHandler(r, urlUcase)
+	_urlControllerHttp.NewURLHandler(r, middl, urlUcase)
 
 	r.Run(":" + viper.GetString("PORT"))
 
