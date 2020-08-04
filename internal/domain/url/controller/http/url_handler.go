@@ -6,6 +6,7 @@ import (
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
+	"github.com/billysutomo/chocolate-waffle/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -22,12 +23,12 @@ type URLHandler struct {
 }
 
 // NewURLHandler url handler
-func NewURLHandler(r *gin.Engine, do domain.URLUsecase) {
+func NewURLHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.URLUsecase) {
 	handler := &URLHandler{
 		URLUsecase: do,
 	}
 
-	r.POST("/url", handler.CreateURL)
+	r.POST("/url", mid.AuthRouteMiddleware(), handler.CreateURL)
 }
 
 func isRequestValid(m *model.URL) (bool, error) {
