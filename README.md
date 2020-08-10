@@ -21,3 +21,9 @@ This project has  4 Domain layer :
  #### The diagram:
 
  ![golang clean architecture](https://github.com/bxcodec/go-clean-arch/raw/master/clean-arch.png)
+
+ ## Migration
+
+This project use migration tools dbmate
+1. Please install dbmate https://github.com/amacneil/dbmate
+2. Run `dbmate migrate`
