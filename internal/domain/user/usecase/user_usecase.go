@@ -11,15 +11,15 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-type authUsecase struct {
+type userUsecase struct {
 }
 
-// NewAuthUsecase NewAuthUsecase
-func NewAuthUsecase() domain.AuthUsecase {
-	return &authUsecase{}
+// NewUserUsecase NewUserUsecase
+func NewUserUsecase() domain.UserUsecase {
+	return &userUsecase{}
 }
 
-func (a *authUsecase) Login(c context.Context, username string, password string) (string, string, error) {
+func (a *userUsecase) Login(c context.Context, username string, password string) (string, string, error) {
 	if username == "jon" && password == "password" {
 		token, refreshToken, err := generateTokenPair("Joe Doe", 1)
 		if err != nil {
@@ -60,7 +60,7 @@ func generateTokenPair(name string, userID int) (string, string, error) {
 	return t, rt, nil
 }
 
-func (a *authUsecase) RefreshToken(c context.Context, refreshToken string) (string, string, error) {
+func (a *userUsecase) RefreshToken(c context.Context, refreshToken string) (string, string, error) {
 
 	// Parse takes the token string and a function for looking up the key.
 	// The latter is especially useful if you use multiple keys for your application.

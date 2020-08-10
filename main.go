@@ -12,8 +12,8 @@ import (
 
 	_middleware "github.com/billysutomo/chocolate-waffle/internal/middleware"
 
-	_authControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/auth/controller/http"
-	_authUcase "github.com/billysutomo/chocolate-waffle/internal/domain/auth/usecase"
+	_userControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/user/controller/http"
+	_userUcase "github.com/billysutomo/chocolate-waffle/internal/domain/user/usecase"
 
 	_urlControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/url/controller/http"
 	_urlRepository "github.com/billysutomo/chocolate-waffle/internal/domain/url/repository/postgre"
@@ -54,8 +54,8 @@ func main() {
 	middl := _middleware.InitMiddleware()
 	r.Use(middl.CORSMiddleware())
 
-	authUcase := _authUcase.NewAuthUsecase()
-	_authControllerHttp.NewAuthHandler(r, middl, authUcase)
+	authUcase := _userUcase.NewUserUsecase()
+	_userControllerHttp.NewUserHandler(r, middl, authUcase)
 
 	urlRepo := _urlRepository.NewPostgreURLRepository(dbConn)
 	urlUcase := _urlUcase.NewURLUsecase(urlRepo)

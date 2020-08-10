@@ -27,15 +27,15 @@ type RequestRefreshToken struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-// AuthHandler article handler
-type AuthHandler struct {
-	AuthUsecase domain.AuthUsecase
+// UserHandler article handler
+type UserHandler struct {
+	UserUsecase domain.UserUsecase
 }
 
-// NewAuthHandler url handler
-func NewAuthHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.AuthUsecase) {
-	handler := &AuthHandler{
-		AuthUsecase: do,
+// NewUserHandler url handler
+func NewUserHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.UserUsecase) {
+	handler := &UserHandler{
+		UserUsecase: do,
 	}
 
 	r.POST("/login", handler.Login)
@@ -44,7 +44,7 @@ func NewAuthHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.Aut
 }
 
 // Private Private
-func (a *AuthHandler) Private(r *gin.Context) {
+func (a *UserHandler) Private(r *gin.Context) {
 
 }
 
@@ -77,11 +77,11 @@ func getStatusCode(err error) int {
 }
 
 // Login login
-func (a *AuthHandler) Login(r *gin.Context) {
+func (a *UserHandler) Login(r *gin.Context) {
 	var requestLogin RequestLogin
 	r.BindJSON(&requestLogin)
 
-	token, refreshToken, err := a.AuthUsecase.Login(r, requestLogin.Username, requestLogin.Password)
+	token, refreshToken, err := a.UserUsecase.Login(r, requestLogin.Username, requestLogin.Password)
 
 	if err != nil {
 		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
@@ -94,11 +94,11 @@ func (a *AuthHandler) Login(r *gin.Context) {
 }
 
 // RefreshToken RefreshToken
-func (a *AuthHandler) RefreshToken(r *gin.Context) {
+func (a *UserHandler) RefreshToken(r *gin.Context) {
 	var requestRefreshToken RequestRefreshToken
 	r.BindJSON(&requestRefreshToken)
 
-	token, refreshToken, err := a.AuthUsecase.RefreshToken(r, requestRefreshToken.RefreshToken)
+	token, refreshToken, err := a.UserUsecase.RefreshToken(r, requestRefreshToken.RefreshToken)
 
 	if err != nil {
 		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})

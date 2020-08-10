@@ -2,8 +2,8 @@ package domain
 
 import "context"
 
-// AuthUsecase AuthUsecase
-type AuthUsecase interface {
+// UserUsecase AuthUsecase
+type UserUsecase interface {
 	Login(ctx context.Context, username string, password string) (string, string, error)
 	RefreshToken(ctc context.Context, refreshToken string) (string, string, error)
 }
