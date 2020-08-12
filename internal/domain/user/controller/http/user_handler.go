@@ -16,9 +16,16 @@ type ResponseError struct {
 	Message string `json:"message"`
 }
 
+// RequestRegister RequestRegister
+type RequestRegister struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 // RequestLogin request
 type RequestLogin struct {
-	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -27,24 +34,25 @@ type RequestRefreshToken struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-// AuthHandler article handler
-type AuthHandler struct {
-	AuthUsecase domain.AuthUsecase
+// UserHandler article handler
+type UserHandler struct {
+	UserUsecase domain.UserUsecase
 }
 
-// NewAuthHandler url handler
-func NewAuthHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.AuthUsecase) {
-	handler := &AuthHandler{
-		AuthUsecase: do,
+// NewUserHandler url handler
+func NewUserHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.UserUsecase) {
+	handler := &UserHandler{
+		UserUsecase: do,
 	}
 
+	r.POST("/register", handler.Register)
 	r.POST("/login", handler.Login)
 	r.POST("/refresh-token", handler.RefreshToken)
 	r.POST("/private", mid.AuthRouteMiddleware(), handler.Private)
 }
 
 // Private Private
-func (a *AuthHandler) Private(r *gin.Context) {
+func (a *UserHandler) Private(r *gin.Context) {
 
 }
 
@@ -76,12 +84,28 @@ func getStatusCode(err error) int {
 	}
 }
 
+// Register Register
+func (a *UserHandler) Register(r *gin.Context) {
+	var requestRegister RequestRegister
+	r.BindJSON(&requestRegister)
+
+	_, err := a.UserUsecase.CreateUser(r, requestRegister.Name, requestRegister.Email, requestRegister.Password)
+
+	if err != nil {
+		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
+		return
+	}
+	r.JSON(http.StatusCreated, map[string]string{
+		"message": "user created",
+	})
+}
+
 // Login login
-func (a *AuthHandler) Login(r *gin.Context) {
+func (a *UserHandler) Login(r *gin.Context) {
 	var requestLogin RequestLogin
 	r.BindJSON(&requestLogin)
 
-	token, refreshToken, err := a.AuthUsecase.Login(r, requestLogin.Username, requestLogin.Password)
+	token, refreshToken, err := a.UserUsecase.Login(r, requestLogin.Email, requestLogin.Password)
 
 	if err != nil {
 		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
@@ -94,11 +118,11 @@ func (a *AuthHandler) Login(r *gin.Context) {
 }
 
 // RefreshToken RefreshToken
-func (a *AuthHandler) RefreshToken(r *gin.Context) {
+func (a *UserHandler) RefreshToken(r *gin.Context) {
 	var requestRefreshToken RequestRefreshToken
 	r.BindJSON(&requestRefreshToken)
 
-	token, refreshToken, err := a.AuthUsecase.RefreshToken(r, requestRefreshToken.RefreshToken)
+	token, refreshToken, err := a.UserUsecase.RefreshToken(r, requestRefreshToken.RefreshToken)
 
 	if err != nil {
 		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})

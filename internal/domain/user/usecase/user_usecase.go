@@ -9,25 +9,18 @@ import (
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/dgrijalva/jwt-go"
+	"golang.org/x/crypto/bcrypt"
 )
 
-type authUsecase struct {
+type userUsecase struct {
+	userRepo domain.UserRepository
 }
 
-// NewAuthUsecase NewAuthUsecase
-func NewAuthUsecase() domain.AuthUsecase {
-	return &authUsecase{}
-}
-
-func (a *authUsecase) Login(c context.Context, username string, password string) (string, string, error) {
-	if username == "jon" && password == "password" {
-		token, refreshToken, err := generateTokenPair("Joe Doe", 1)
-		if err != nil {
-			return "", "", err
-		}
-		return token, refreshToken, nil
+// NewUserUsecase NewUserUsecase
+func NewUserUsecase(a domain.UserRepository) domain.UserUsecase {
+	return &userUsecase{
+		userRepo: a,
 	}
-	return "", "", errors.New("error")
 }
 
 func generateTokenPair(name string, userID int) (string, string, error) {
@@ -60,7 +53,59 @@ func generateTokenPair(name string, userID int) (string, string, error) {
 	return t, rt, nil
 }
 
-func (a *authUsecase) RefreshToken(c context.Context, refreshToken string) (string, string, error) {
+func hashAndSalt(password string) string {
+
+	pwd := []byte(password)
+
+	// Use GenerateFromPassword to hash & salt pwd.
+	// MinCost is just an integer constant provided by the bcrypt
+	// package along with DefaultCost & MaxCost.
+	// The cost can be any value you want provided it isn't lower
+	// than the MinCost (4)
+	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+	if err != nil {
+		log.Println(err)
+	}
+	// GenerateFromPassword returns a byte slice so we need to
+	// convert the bytes to a string and return it
+	return string(hash)
+}
+
+func comparePasswords(hashedPwd string, password string) bool {
+	plainPwd := []byte(password)
+	// Since we'll be getting the hashed password from the DB it
+	// will be a string so we'll need to convert it to a byte slice
+	byteHash := []byte(hashedPwd)
+	err := bcrypt.CompareHashAndPassword(byteHash, plainPwd)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
+	return true
+}
+
+func (a *userUsecase) Login(ctx context.Context, email string, password string) (string, string, error) {
+	user, err := a.userRepo.GetUserByEmail(ctx, email)
+
+	if err != nil || user.ID == 0 {
+		return "", "", errors.New("Email wrong")
+	}
+
+	pwdCheck := comparePasswords(user.Password, password)
+
+	if !pwdCheck {
+		return "", "", errors.New("Password wrong")
+	}
+
+	token, refreshToken, err := generateTokenPair(user.Name, user.ID)
+	if err != nil {
+		return "", "", err
+	}
+	return token, refreshToken, nil
+}
+
+func (a *userUsecase) RefreshToken(c context.Context, refreshToken string) (string, string, error) {
 
 	// Parse takes the token string and a function for looking up the key.
 	// The latter is especially useful if you use multiple keys for your application.
@@ -96,4 +141,16 @@ func (a *authUsecase) RefreshToken(c context.Context, refreshToken string) (stri
 		return "", "", errors.New("Unauthorized")
 	}
 	return "", "", err
+}
+
+// RegisterUser RegisterUser
+func (a *userUsecase) CreateUser(ctx context.Context, name string, email string, password string) (bool, error) {
+
+	hashPassword := hashAndSalt(password)
+
+	_, err := a.userRepo.CreateUser(ctx, name, email, hashPassword)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
