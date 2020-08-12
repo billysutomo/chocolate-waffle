@@ -11,6 +11,7 @@ require (
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/spf13/viper v1.7.0
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 	golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect

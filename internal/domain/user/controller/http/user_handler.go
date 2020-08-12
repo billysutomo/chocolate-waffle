@@ -16,9 +16,16 @@ type ResponseError struct {
 	Message string `json:"message"`
 }
 
+// RequestRegister RequestRegister
+type RequestRegister struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 // RequestLogin request
 type RequestLogin struct {
-	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -38,6 +45,7 @@ func NewUserHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.Use
 		UserUsecase: do,
 	}
 
+	r.POST("/register", handler.Register)
 	r.POST("/login", handler.Login)
 	r.POST("/refresh-token", handler.RefreshToken)
 	r.POST("/private", mid.AuthRouteMiddleware(), handler.Private)
@@ -76,12 +84,28 @@ func getStatusCode(err error) int {
 	}
 }
 
+// Register Register
+func (a *UserHandler) Register(r *gin.Context) {
+	var requestRegister RequestRegister
+	r.BindJSON(&requestRegister)
+
+	_, err := a.UserUsecase.CreateUser(r, requestRegister.Name, requestRegister.Email, requestRegister.Password)
+
+	if err != nil {
+		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
+		return
+	}
+	r.JSON(http.StatusCreated, map[string]string{
+		"message": "user created",
+	})
+}
+
 // Login login
 func (a *UserHandler) Login(r *gin.Context) {
 	var requestLogin RequestLogin
 	r.BindJSON(&requestLogin)
 
-	token, refreshToken, err := a.UserUsecase.Login(r, requestLogin.Username, requestLogin.Password)
+	token, refreshToken, err := a.UserUsecase.Login(r, requestLogin.Email, requestLogin.Password)
 
 	if err != nil {
 		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
