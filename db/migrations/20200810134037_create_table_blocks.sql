@@ -3,13 +3,12 @@ CREATE TABLE blocks (
     id SERIAL,
     id_project INTEGER,
     ordernum INTEGER,
-    url VARCHAR(255),
-    icon VARCHAR(255),
-    title VARCHAR(255),
+    type VARCHAR(255),
+    body JSONB,
     created_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ,
     deleted_at TIMESTAMPTZ
-) 
+)
 
 -- migrate:down
 DROP TABLE blocks
