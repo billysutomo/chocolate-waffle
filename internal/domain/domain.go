@@ -16,6 +16,19 @@ type User struct {
 	DeletedAt sql.NullTime
 }
 
+// Project Project
+type Project struct {
+	ID             int
+	IDUser         int
+	URL            string
+	ProfilePicture string
+	Title          string
+	Description    string
+	CreatedAt      sql.NullTime
+	UpdatedAt      sql.NullTime
+	DeletedAt      sql.NullTime
+}
+
 // UserUsecase AuthUsecase
 type UserUsecase interface {
 	Login(ctx context.Context, username string, password string) (string, string, error)
@@ -38,4 +51,14 @@ type URLUsecase interface {
 type URLRepository interface {
 	GetURL(ctx context.Context, nama string)
 	// Create(ctx context.Context)
+}
+
+// ProjectUsecase ProjectUsecase
+type ProjectUsecase interface {
+	CreateProject(ctx context.Context, idUser int, url string, profilePicture string, title string, description string) (bool, error)
+}
+
+// ProjectRepository ProjectRepository
+type ProjectRepository interface {
+	CreateProject(ctx context.Context, idUser int, url string, profilePicture string, title string, description string) (bool, error)
 }
