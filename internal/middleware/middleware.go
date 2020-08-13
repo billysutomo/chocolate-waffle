@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -10,14 +11,6 @@ import (
 //MainMiddleware GoMiddleware
 type MainMiddleware struct {
 }
-
-// // CORS will handle the CORS middleware
-// func (m *GoMiddleware) CORS(next gin.HandlerFunc) gin.HandlerFunc {
-// 	return func(c gin.Context) error {
-// 		c.Response().Header().Set("Access-Control-Allow-Origin", "*")
-// 		return next(c)
-// 	}
-// }
 
 //CORSMiddleware CORSMiddleware
 func (m *MainMiddleware) CORSMiddleware() gin.HandlerFunc {
@@ -39,33 +32,42 @@ func (m *MainMiddleware) CORSMiddleware() gin.HandlerFunc {
 //AuthRouteMiddleware AuthRouteMiddleware
 func (m *MainMiddleware) AuthRouteMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		token := c.Request.Header.Get("X-Auth-Token")
-
-		if token == "" {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"Message": "Unauthorized"})
-			return
-		} else if checkToken(token) {
-			c.Next()
-			return
-		} else {
+		const bearerSchema = "Bearer "
+		authHeader := c.Request.Header.Get("Authorization")
+		val := strings.HasPrefix(authHeader, bearerSchema)
+		if !val {
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
+
+		token := authHeader[len(bearerSchema):]
+		claims, ok := checkToken(token)
+
+		if !ok {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+		id := claims["id"].(float64)
+		c.Set("id", int(id))
+		c.Next()
+		return
 	}
 }
 
-func checkToken(myToken string) bool {
+func checkToken(myToken string) (jwt.MapClaims, bool) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	tkn, err := jwt.ParseWithClaims(myToken, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte("secret"), nil
 	})
 
+	data := tkn.Claims.(jwt.MapClaims)
+
 	if err == nil && tkn.Valid {
-		return true
+		return data, true
 	}
-	return false
+
+	return nil, false
 }
 
 // InitMiddleware initialize the middleware
