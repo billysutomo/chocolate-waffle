@@ -23,6 +23,10 @@ import (
 	_projectControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/project/controller/http"
 	_projectRepository "github.com/billysutomo/chocolate-waffle/internal/domain/project/repository/postgre"
 	_projectUcase "github.com/billysutomo/chocolate-waffle/internal/domain/project/usecase"
+
+	_blockControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/block/controller/http"
+	_blockRepository "github.com/billysutomo/chocolate-waffle/internal/domain/block/repository/postgre"
+	_blockUcase "github.com/billysutomo/chocolate-waffle/internal/domain/block/usecase"
 )
 
 func init() {
@@ -71,6 +75,10 @@ func main() {
 	projectRepo := _projectRepository.NewPosgtreProjectRepository(dbConn)
 	projectUcase := _projectUcase.NewProjectUsecase(projectRepo)
 	_projectControllerHttp.NewProjectHandler(r, middl, projectUcase)
+
+	blockRepo := _blockRepository.NewPosgtreBlockRepository(dbConn)
+	blockUcase := _blockUcase.NewBlockUsecase(blockRepo)
+	_blockControllerHttp.NewBlockHandler(r, middl, blockUcase)
 
 	r.Run(":" + viper.GetString("PORT"))
 
