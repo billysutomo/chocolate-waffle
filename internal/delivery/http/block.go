@@ -8,11 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ResponseError ResponseError
-type ResponseError struct {
-	Message string `json:"message"`
-}
-
 // RequestCreateBlock RequestCreateBlock
 type RequestCreateBlock struct {
 	IDProject int    `json:"id_project"`
