@@ -4,17 +4,10 @@ import (
 	"net/http"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/billysutomo/chocolate-waffle/internal/domain/url/model"
 	"github.com/billysutomo/chocolate-waffle/internal/middleware"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 )
-
-// ResponseError response error
-type ResponseError struct {
-	Message string `json:"message"`
-}
 
 // RequestRegister RequestRegister
 type RequestRegister struct {
@@ -56,33 +49,33 @@ func (a *UserHandler) Private(r *gin.Context) {
 
 }
 
-func isRequestValid(m *model.URL) (bool, error) {
-	var v *validator.Validate
-	v = validator.New()
-	err := v.Struct(m)
-	if err != nil {
-		return false, err
-	}
-	return true, nil
-}
+// func isRequestValid(m *model.URL) (bool, error) {
+// 	var v *validator.Validate
+// 	v = validator.New()
+// 	err := v.Struct(m)
+// 	if err != nil {
+// 		return false, err
+// 	}
+// 	return true, nil
+// }
 
-func getStatusCode(err error) int {
-	if err == nil {
-		return http.StatusOK
-	}
+// func getStatusCode(err error) int {
+// 	if err == nil {
+// 		return http.StatusOK
+// 	}
 
-	switch err {
-	case model.ErrInternalServerError:
-		return http.StatusInternalServerError
-	case model.ErrNotFound:
-		return http.StatusNotFound
-	case model.ErrConflict:
-		return http.StatusConflict
-	default:
-		return http.StatusInternalServerError
+// 	switch err {
+// 	case model.ErrInternalServerError:
+// 		return http.StatusInternalServerError
+// 	case model.ErrNotFound:
+// 		return http.StatusNotFound
+// 	case model.ErrConflict:
+// 		return http.StatusConflict
+// 	default:
+// 		return http.StatusInternalServerError
 
-	}
-}
+// 	}
+// }
 
 // Register Register
 func (a *UserHandler) Register(r *gin.Context) {

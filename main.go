@@ -12,17 +12,9 @@ import (
 
 	_middleware "github.com/billysutomo/chocolate-waffle/internal/middleware"
 
-	_userControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/user/controller/http"
-	_userRepository "github.com/billysutomo/chocolate-waffle/internal/domain/user/repository/postgre"
-	_userUcase "github.com/billysutomo/chocolate-waffle/internal/domain/user/usecase"
-
-	_urlControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/url/controller/http"
-	_urlRepository "github.com/billysutomo/chocolate-waffle/internal/domain/url/repository/postgre"
-	_urlUcase "github.com/billysutomo/chocolate-waffle/internal/domain/url/usecase"
-
-	_projectControllerHttp "github.com/billysutomo/chocolate-waffle/internal/domain/project/controller/http"
-	_projectRepository "github.com/billysutomo/chocolate-waffle/internal/domain/project/repository/postgre"
-	_projectUcase "github.com/billysutomo/chocolate-waffle/internal/domain/project/usecase"
+	_deliveryHttp "github.com/billysutomo/chocolate-waffle/internal/delivery/http"
+	_repositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/repository/postgre"
+	_usecase "github.com/billysutomo/chocolate-waffle/internal/usecase"
 )
 
 func init() {
@@ -60,17 +52,17 @@ func main() {
 	middl := _middleware.InitMiddleware()
 	r.Use(middl.CORSMiddleware())
 
-	userRepo := _userRepository.NewPosgtgreUserRepository(dbConn)
-	userUcase := _userUcase.NewUserUsecase(userRepo)
-	_userControllerHttp.NewUserHandler(r, middl, userUcase)
+	userRepo := _repositoryPostgre.NewPosgtgreUserRepository(dbConn)
+	userUcase := _usecase.NewUserUsecase(userRepo)
+	_deliveryHttp.NewUserHandler(r, middl, userUcase)
 
-	urlRepo := _urlRepository.NewPostgreURLRepository(dbConn)
-	urlUcase := _urlUcase.NewURLUsecase(urlRepo)
-	_urlControllerHttp.NewURLHandler(r, middl, urlUcase)
+	projectRepo := _repositoryPostgre.NewPosgtreProjectRepository(dbConn)
+	projectUcase := _usecase.NewProjectUsecase(projectRepo)
+	_deliveryHttp.NewProjectHandler(r, middl, projectUcase)
 
-	projectRepo := _projectRepository.NewPosgtreProjectRepository(dbConn)
-	projectUcase := _projectUcase.NewProjectUsecase(projectRepo)
-	_projectControllerHttp.NewProjectHandler(r, middl, projectUcase)
+	blockRepo := _repositoryPostgre.NewPosgtreBlockRepository(dbConn)
+	blockUcase := _usecase.NewBlockUsecase(blockRepo)
+	_deliveryHttp.NewBlockHandler(r, middl, blockUcase)
 
 	r.Run(":" + viper.GetString("PORT"))
 
