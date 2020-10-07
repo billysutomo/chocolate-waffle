@@ -2,17 +2,17 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 export interface BlockButtonProps {
-  label: string;
+  children: string;
   size?: 'small' | 'medium' | 'large';
 }
 
 export const BlockButton: React.FC<BlockButtonProps> = ({
-  label,
+  children,
   size = 'large',
   ...props
 }) => {
   return (
-    <BlockButtonStyled size={size} {...props}>{label}</BlockButtonStyled>
+    <BlockButtonStyled size={size} {...props}>{children}</BlockButtonStyled>
   )
 }
 
