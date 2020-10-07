@@ -7,9 +7,9 @@ import {BlockButton, BlockButtonProps} from '../components/BlockButton';
 export default {
   title: 'Example/BlockButton',
   component: BlockButton,
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
+  // argTypes: {
+  //   backgroundColor: { control: 'color' },
+  // },
 } as Meta;
 
 const Template: Story<BlockButtonProps> = (args) => <BlockButton {...args} />;

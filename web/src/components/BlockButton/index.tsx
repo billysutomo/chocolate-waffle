@@ -1,33 +1,32 @@
 import React from 'react';
+import styled from 'styled-components';
 
 export interface BlockButtonProps {
-    /**
-     * Is this the principal call to action on the page?
-     */
-    // primary?: boolean;
-    // /**
-    //  * What background color to use
-    //  */
-    // backgroundColor?: string;
-    // /**
-    //  * How large should the button be?
-    //  */
-    // size?: 'small' | 'medium' | 'large';
-    /**
-     * Button contents
-     */
-    label: string;
-    /**
-     * Optional click handler
-     */
-    // onClick?: () => void;
-  }
+  label: string;
+}
 
 export const BlockButton: React.FC<BlockButtonProps> = ({
-    label = "default",
-    ...props
+  label,
+  ...props
 }) => {
-    return (
-    <span>{label}</span>
-    )
+  return (
+    <BlockButtonStyled {...props}>{label}</BlockButtonStyled>
+  )
 }
+
+const BlockButtonStyled = styled.button`
+  border: 2px dashed #607D8B;
+  border-radius: 10px;
+  padding: 15px 20px 15px 20px;
+  width: 300px;
+  text-align: center;
+  :hover{
+    cursor: pointer;
+  }
+  :active{
+    background: #2ab8b96b;
+  }
+  :focus{
+    outline: 0;
+  }
+`
