@@ -14,7 +14,19 @@ export default {
 
 const Template: Story<BlockButtonProps> = (args) => <BlockButton {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Large = Template.bind({});
+Large.args = {
   label: 'My Block Button',
+};
+
+export const Medium = Template.bind({});
+Medium.args = {
+  label: 'My Block Button',
+  size: 'medium'
+};
+
+export const Small = Template.bind({});
+Small.args = {
+  label: 'My Block Button',
+  size: 'small'
 };
