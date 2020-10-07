@@ -5,6 +5,7 @@ This project aims to clone shorby.com for education purpose
 
 ## Tech Stack
 ### UI
+* TypeScript
 * React
 * Redux
 * styled-component
