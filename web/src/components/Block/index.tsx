@@ -1,14 +1,14 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-export interface BlockButtonProps {
+export interface BlockProps {
   children: string;
   active: boolean;
   backgroundColor?: string;
   size?: 'small' | 'medium' | 'large';
 }
 
-export const BlockButton: React.FC<BlockButtonProps> = ({
+export const Block: React.FC<BlockProps> = ({
   children,
   active,
   backgroundColor,
@@ -16,16 +16,16 @@ export const BlockButton: React.FC<BlockButtonProps> = ({
   ...props
 }) => {
   return (
-    <BlockButtonStyled
+    <BlockStyled
       size={size}
       active={active}
       backgroundColor={backgroundColor}
       {...props}
-    >{children}</BlockButtonStyled>
+    >{children}</BlockStyled>
   )
 }
 
-const BlockButtonStyled = styled.button<BlockButtonProps>`
+const BlockStyled = styled.button<BlockProps>`
   border: 2px dashed #607D8B;
   border-radius: 10px;
   padding: 15px 20px 15px 20px;
