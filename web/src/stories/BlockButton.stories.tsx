@@ -7,9 +7,9 @@ import {BlockButton, BlockButtonProps} from '../components/BlockButton';
 export default {
   title: 'Example/BlockButton',
   component: BlockButton,
-  // argTypes: {
-  //   backgroundColor: { control: 'color' },
-  // },
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
 } as Meta;
 
 const Template: Story<BlockButtonProps> = (args) => <BlockButton {...args} />;
@@ -28,5 +28,18 @@ Medium.args = {
 export const Small = Template.bind({});
 Small.args = {
   children: 'My Block Button',
+  size: 'small'
+};
+
+export const Active = Template.bind({});
+Active.args = {
+  children: 'Active',
+  size: 'small',
+  active: true
+};
+
+export const Passive = Template.bind({});
+Passive.args = {
+  children: 'Passive',
   size: 'small'
 };

@@ -5,8 +5,8 @@ import { BlockButton } from '../../components/BlockButton';
 export default () => {
   return (
     <div>
-      <BlockButton>+ Add Messenger</BlockButton>
-      <BlockButton>+ Add Block</BlockButton>
+      <BlockButton active={true}>+ Add Messenger</BlockButton>
+      <BlockButton active={false}>+ Add Block</BlockButton>
     </div>
   )
 }
