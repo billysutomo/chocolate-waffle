@@ -1,7 +1,5 @@
-import React from 'react';
+import React from "react";
 
 export default () => {
-    return (
-        <span>Camera Button</span>
-    )
-}
+  return <span>Camera Button</span>;
+};
