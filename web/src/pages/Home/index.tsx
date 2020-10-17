@@ -2,7 +2,7 @@ import React from "react";
 import { Block } from "../../components/Block";
 import { BlockWrapper } from "../../components/BlockWrapper";
 
-export default () => {
+const Component: React.FC = () => {
   return (
     <div>
       <Block active={false}>+ Add Block</Block>
@@ -28,3 +28,5 @@ export default () => {
     </div>
   );
 };
+
+export default Component;

@@ -36,5 +36,7 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'react/jsx-props-no-spreading': 0,
+    '@typescript-eslint/no-use-before-define': 0
   },
 };

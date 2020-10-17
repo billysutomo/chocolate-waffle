@@ -1,5 +1,7 @@
 import React from "react";
 
-export default () => {
+const Component: React.FC = () => {
   return <span>Camera Button</span>;
 };
+
+export default Component;

@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import Setting from "./pages/Setting";
 
-export default () => {
+const Component: React.FC = () => {
   return (
     <Router>
       <Switch>
@@ -13,3 +13,5 @@ export default () => {
     </Router>
   );
 };
+
+export default Component;

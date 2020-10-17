@@ -1,31 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-
-export interface BlockProps {
-  children: string;
-  active: boolean;
-  backgroundColor?: string;
-  size?: "small" | "medium" | "large";
-}
-
-export const Block: React.FC<BlockProps> = ({
-  children,
-  active,
-  backgroundColor,
-  size = "large",
-  ...props
-}) => {
-  return (
-    <BlockStyled
-      size={size}
-      active={active}
-      backgroundColor={backgroundColor}
-      {...props}
-    >
-      {children}
-    </BlockStyled>
-  );
-};
 
 const BlockStyled = styled.button<BlockProps>`
   border: 2px dashed #607d8b;
@@ -59,3 +34,31 @@ const BlockStyled = styled.button<BlockProps>`
       border: none;
     `}
 `;
+
+export interface BlockProps {
+  children: string;
+  active: boolean;
+  backgroundColor?: string;
+  size?: "small" | "medium" | "large";
+}
+
+export const Block: React.FC<BlockProps> = ({
+  children,
+  active,
+  backgroundColor,
+  size = "large",
+}) => {
+  return (
+    <BlockStyled size={size} active={active} backgroundColor={backgroundColor}>
+      {children}
+    </BlockStyled>
+  );
+};
+
+Block.propTypes = {
+  children: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+  size: PropTypes.oneOf(["small" as const, "medium" as const, "large" as const])
+    .isRequired,
+};
