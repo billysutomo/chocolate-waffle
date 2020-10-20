@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
-export default () => {
-  return (
-    <div>
-      This is page Setting
-    </div>
-  )
-}
+const Component: React.FC = () => {
+  return <div>This is page Setting</div>;
+};
+
+export default Component;

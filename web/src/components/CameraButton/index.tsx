@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-export default () => {
-    return (
-        <span>Camera Button</span>
-    )
-}
+const Component: React.FC = () => {
+  return <span>Camera Button</span>;
+};
+
+export default Component;
