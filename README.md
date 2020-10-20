@@ -3,6 +3,10 @@
 ## Overview
 This project aims to clone shorby.com for education purpose and still in very early state, if you want to contribute please [Open Issue](https://github.com/billysutomo/chocolate-waffle/issues/new/choose) or Merge Request.
 
+## Quick Start
+* web visit [README](./web/README.md)
+* service visit [README](./web/README.md)
+
 ## Tech Stack
 ### UI
 * TypeScript
