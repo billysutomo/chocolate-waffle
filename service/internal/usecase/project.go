@@ -4,16 +4,19 @@ import (
 	"context"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"go.uber.org/zap"
 )
 
 type projectUsecase struct {
 	projectRepo domain.ProjectRepository
+	logger      *zap.Logger
 }
 
 // NewProjectUsecase NewProjectUsecase
-func NewProjectUsecase(a domain.ProjectRepository) domain.ProjectUsecase {
+func NewProjectUsecase(a domain.ProjectRepository, logger *zap.Logger) domain.ProjectUsecase {
 	return &projectUsecase{
 		projectRepo: a,
+		logger:      logger,
 	}
 }
 

@@ -9,17 +9,20 @@ import (
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/dgrijalva/jwt-go"
+	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type userUsecase struct {
 	userRepo domain.UserRepository
+	logger   *zap.Logger
 }
 
 // NewUserUsecase NewUserUsecase
-func NewUserUsecase(a domain.UserRepository) domain.UserUsecase {
+func NewUserUsecase(a domain.UserRepository, logger *zap.Logger) domain.UserUsecase {
 	return &userUsecase{
 		userRepo: a,
+		logger:   logger,
 	}
 }
 

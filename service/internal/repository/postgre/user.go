@@ -6,15 +6,17 @@ import (
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/jackc/pgx/v4"
+	"go.uber.org/zap"
 )
 
 type postgreUserRepository struct {
-	Conn *pgx.Conn
+	Conn   *pgx.Conn
+	logger *zap.Logger
 }
 
 // NewPosgtgreUserRepository NewPosgtgreUserRepository
-func NewPosgtgreUserRepository(Conn *pgx.Conn) domain.UserRepository {
-	return &postgreUserRepository{Conn}
+func NewPosgtgreUserRepository(Conn *pgx.Conn, logger *zap.Logger) domain.UserRepository {
+	return &postgreUserRepository{Conn, logger}
 }
 
 func (p *postgreUserRepository) CreateUser(ctx context.Context, name string, email string, password string) (bool, error) {
@@ -31,6 +33,7 @@ func (p *postgreUserRepository) CreateUser(ctx context.Context, name string, ema
 	if err != nil {
 		return false, err
 	}
+
 	return true, nil
 }
 
