@@ -8,6 +8,7 @@ const BlockStyled = styled.button<BlockProps>`
   padding: 15px 20px 15px 20px;
   width: 370px;
   text-align: center;
+  margin-bottom: 16px;
   background-color: ${(p) => p.backgroundColor};
   :hover {
     cursor: pointer;
