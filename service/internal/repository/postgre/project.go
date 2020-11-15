@@ -6,15 +6,17 @@ import (
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/jackc/pgx/v4"
+	"go.uber.org/zap"
 )
 
 type postgreProjectRepository struct {
-	Conn *pgx.Conn
+	Conn   *pgx.Conn
+	logger *zap.Logger
 }
 
 // NewPosgtreProjectRepository NewPosgtreProjectRepository
-func NewPosgtreProjectRepository(Conn *pgx.Conn) domain.ProjectRepository {
-	return &postgreProjectRepository{Conn}
+func NewPosgtreProjectRepository(Conn *pgx.Conn, logger *zap.Logger) domain.ProjectRepository {
+	return &postgreProjectRepository{Conn, logger}
 }
 
 func (p *postgreProjectRepository) CreateProject(
