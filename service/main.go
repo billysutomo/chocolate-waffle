@@ -7,6 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 
 	_ "github.com/lib/pq"
 
@@ -32,6 +34,15 @@ func init() {
 	}
 }
 
+func initZapLog() *zap.Logger {
+	config := zap.NewDevelopmentConfig()
+	config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+	config.EncoderConfig.TimeKey = "timestamp"
+	config.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+	logger, _ := config.Build()
+	return logger
+}
+
 func main() {
 	r := gin.Default()
 
@@ -54,19 +65,27 @@ func main() {
 		}
 	}()
 
+	/* setup logger */
+	loggerMgr := initZapLog()
+	defer loggerMgr.Sync()
+
+	/* setup middleware */
 	middl := _middleware.InitMiddleware()
 	r.Use(middl.CORSMiddleware())
 
-	userRepo := _repositoryPostgre.NewPosgtgreUserRepository(dbConn)
-	userUcase := _usecase.NewUserUsecase(userRepo)
+	/* setup domain user */
+	userRepo := _repositoryPostgre.NewPosgtgreUserRepository(dbConn, loggerMgr)
+	userUcase := _usecase.NewUserUsecase(userRepo, loggerMgr)
 	_deliveryHttp.NewUserHandler(r, middl, userUcase)
 
-	projectRepo := _repositoryPostgre.NewPosgtreProjectRepository(dbConn)
-	projectUcase := _usecase.NewProjectUsecase(projectRepo)
+	/* setup domain project */
+	projectRepo := _repositoryPostgre.NewPosgtreProjectRepository(dbConn, loggerMgr)
+	projectUcase := _usecase.NewProjectUsecase(projectRepo, loggerMgr)
 	_deliveryHttp.NewProjectHandler(r, middl, projectUcase)
 
-	blockRepo := _repositoryPostgre.NewPosgtreBlockRepository(dbConn)
-	blockUcase := _usecase.NewBlockUsecase(blockRepo)
+	/* setup domain block */
+	blockRepo := _repositoryPostgre.NewPosgtreBlockRepository(dbConn, loggerMgr)
+	blockUcase := _usecase.NewBlockUsecase(blockRepo, loggerMgr)
 	_deliveryHttp.NewBlockHandler(r, middl, blockUcase)
 
 	r.Run(":" + viper.GetString("PORT"))

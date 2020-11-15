@@ -5,15 +5,17 @@ import (
 	"database/sql"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"go.uber.org/zap"
 )
 
 type postgreBlockRepository struct {
-	db *sql.DB
+	db     *sql.DB
+	logger *zap.Logger
 }
 
 // NewPosgtreBlockRepository NewPosgtreBlockRepository
-func NewPosgtreBlockRepository(db *sql.DB) domain.BlockRepository {
-	return &postgreBlockRepository{db}
+func NewPosgtreBlockRepository(db *sql.DB, logger *zap.Logger) domain.BlockRepository {
+	return &postgreBlockRepository{db, logger}
 }
 
 func (p *postgreBlockRepository) CreateBlock(
