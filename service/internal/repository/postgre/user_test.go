@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 )
 
@@ -50,7 +51,7 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 
 func TestGetUserByEmail(t *testing.T) {
 	db, mock := NewMock()
-	repo := &postgreUserRepository{db}
+	repo := &postgreUserRepository{db, &zap.Logger{}}
 	defer func() {
 		repo.db.Close()
 	}()
