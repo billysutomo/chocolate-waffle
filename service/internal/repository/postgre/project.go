@@ -2,19 +2,19 @@ package postgre
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/jackc/pgx/v4"
 )
 
 type postgreProjectRepository struct {
-	Conn *pgx.Conn
+	db *sql.DB
 }
 
 // NewPosgtreProjectRepository NewPosgtreProjectRepository
-func NewPosgtreProjectRepository(Conn *pgx.Conn) domain.ProjectRepository {
-	return &postgreProjectRepository{Conn}
+func NewPosgtreProjectRepository(db *sql.DB) domain.ProjectRepository {
+	return &postgreProjectRepository{db}
 }
 
 func (p *postgreProjectRepository) CreateProject(
@@ -36,7 +36,7 @@ func (p *postgreProjectRepository) CreateProject(
 		updated_at, 
 		deleted_at
 	) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
-	err := p.Conn.QueryRow(
+	err := p.db.QueryRowContext(
 		ctx,
 		sqlStatement,
 		idUser,

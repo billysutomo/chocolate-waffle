@@ -147,7 +147,6 @@ func (a *userUsecase) RefreshToken(c context.Context, refreshToken string) (stri
 func (a *userUsecase) CreateUser(ctx context.Context, name string, email string, password string) (bool, error) {
 
 	hashPassword := hashAndSalt(password)
-
 	_, err := a.userRepo.CreateUser(ctx, name, email, hashPassword)
 	if err != nil {
 		return false, err

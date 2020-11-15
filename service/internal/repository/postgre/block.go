@@ -2,18 +2,18 @@ package postgre
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/jackc/pgx/v4"
 )
 
 type postgreBlockRepository struct {
-	Conn *pgx.Conn
+	db *sql.DB
 }
 
 // NewPosgtreBlockRepository NewPosgtreBlockRepository
-func NewPosgtreBlockRepository(Conn *pgx.Conn) domain.BlockRepository {
-	return &postgreBlockRepository{Conn}
+func NewPosgtreBlockRepository(db *sql.DB) domain.BlockRepository {
+	return &postgreBlockRepository{db}
 }
 
 func (p *postgreBlockRepository) CreateBlock(

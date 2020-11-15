@@ -1,0 +1,3 @@
+BINARY=engine
+test: 
+	go test -v -cover -covermode=atomic ./...
