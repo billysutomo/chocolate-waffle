@@ -2,20 +2,20 @@ package postgre
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/jackc/pgx/v4"
 	"go.uber.org/zap"
 )
 
 type postgreBlockRepository struct {
-	Conn   *pgx.Conn
+	db     *sql.DB
 	logger *zap.Logger
 }
 
 // NewPosgtreBlockRepository NewPosgtreBlockRepository
-func NewPosgtreBlockRepository(Conn *pgx.Conn, logger *zap.Logger) domain.BlockRepository {
-	return &postgreBlockRepository{Conn, logger}
+func NewPosgtreBlockRepository(db *sql.DB, logger *zap.Logger) domain.BlockRepository {
+	return &postgreBlockRepository{db, logger}
 }
 
 func (p *postgreBlockRepository) CreateBlock(

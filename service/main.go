@@ -1,16 +1,16 @@
 package main
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
 	"log"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
+	_ "github.com/lib/pq"
 
 	_middleware "github.com/billysutomo/chocolate-waffle/internal/middleware"
 
@@ -51,14 +51,19 @@ func main() {
 	dbUser := viper.GetString(`DB_USER`)
 	dbPass := viper.GetString(`DB_PASS`)
 	dbName := viper.GetString(`DB_NAME`)
-	connection := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
+	connection := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", dbHost, dbPort, dbUser, dbPass, dbName)
 	log.Print(connection)
-	dbConn, err := pgx.Connect(context.Background(), connection)
+	dbConn, err := sql.Open("postgres", connection)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer dbConn.Close(context.Background())
+	defer func() {
+		err := dbConn.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	/* setup logger */
 	loggerMgr := initZapLog()

@@ -2,21 +2,21 @@ package postgre
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/jackc/pgx/v4"
 	"go.uber.org/zap"
 )
 
 type postgreUserRepository struct {
-	Conn   *pgx.Conn
+	db     *sql.DB
 	logger *zap.Logger
 }
 
 // NewPosgtgreUserRepository NewPosgtgreUserRepository
-func NewPosgtgreUserRepository(Conn *pgx.Conn, logger *zap.Logger) domain.UserRepository {
-	return &postgreUserRepository{Conn, logger}
+func NewPosgtgreUserRepository(db *sql.DB, logger *zap.Logger) domain.UserRepository {
+	return &postgreUserRepository{db, logger}
 }
 
 func (p *postgreUserRepository) CreateUser(ctx context.Context, name string, email string, password string) (bool, error) {
@@ -29,7 +29,8 @@ func (p *postgreUserRepository) CreateUser(ctx context.Context, name string, ema
 		updated_at, 
 		deleted_at
 	) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
-	err := p.Conn.QueryRow(ctx, sqlStatement, name, email, password, time.Now(), nil, nil).Scan(&user.ID)
+
+	err := p.db.QueryRow(sqlStatement, name, email, password, time.Now(), time.Now(), nil).Scan(&user.ID)
 	if err != nil {
 		return false, err
 	}
@@ -40,7 +41,7 @@ func (p *postgreUserRepository) CreateUser(ctx context.Context, name string, ema
 func (p *postgreUserRepository) GetUserByEmail(ctx context.Context, email string) (domain.User, error) {
 	var user domain.User
 	sqlStatement := `SELECT id, name, email, password, created_at, updated_at, deleted_at FROM users where email = $1`
-	err := p.Conn.QueryRow(ctx, sqlStatement, email).Scan(
+	err := p.db.QueryRowContext(ctx, sqlStatement, email).Scan(
 		&user.ID,
 		&user.Name,
 		&user.Email,
