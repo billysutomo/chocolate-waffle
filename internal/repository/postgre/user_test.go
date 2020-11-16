@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"log"
+	"regexp"
 	"testing"
 	"time"
 
@@ -21,33 +22,42 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 	return db, mock
 }
 
-// func TestCreateUser(t *testing.T) {
-// 	db, mock := NewMock()
-// 	repo := &postgreUserRepository{db}
-// 	defer func() {
-// 		repo.db.Close()
-// 	}()
+func TestCreateUser(t *testing.T) {
+	db, mock := NewMock()
+	repo := &postgreUserRepository{db, &zap.Logger{}}
+	defer func() {
+		repo.db.Close()
+	}()
 
-// 	query := "INSERT INTO users (name, email, password, created_at, updated_at, deleted_at) VALUES (?, ?, ?, ?, ?, ?)"
+	query := "INSERT INTO users (name, email, password, created_at, updated_at, deleted_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id"
 
-// 	myTime := sql.NullTime{Time: time.Now(), Valid: true}
-// 	myTimeNil := sql.NullTime{Valid: false}
+	data := UserModel{
+		Name:      "Billy",
+		Email:     "billysutomo.53@gmail.com",
+		Password:  "password",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
 
-// 	// mock.ExpectBegin()
-// 	mock.ExpectExec(regexp.QuoteMeta(query)).
-// 		WithArgs(
-// 			"Billy",
-// 			"billysutomo.53@gmail.com",
-// 			"password",
-// 			myTime,
-// 			myTime,
-// 			myTimeNil,
-// 		)
-// 	// mock.ExpectCommit()
+	rows := sqlmock.
+		NewRows([]string{"id"}).
+		AddRow(1)
 
-// 	_, err := repo.CreateUser(context.Background(), "Billy", "billysutomo.53@gmail.com", "password", myTime, myTime, myTimeNil)
-// 	assert.NoError(t, err)
-// }
+	mock.ExpectQuery(regexp.QuoteMeta(query)).
+		WithArgs(
+			data.Name,
+			data.Email,
+			data.Password,
+			data.CreatedAt,
+			data.UpdatedAt,
+			data.DeletedAt,
+		).
+		WillReturnRows(rows)
+
+	err := repo.CreateUser(context.Background(), data)
+	assert.Equal(t, nil, mock.ExpectationsWereMet())
+	assert.NoError(t, err)
+}
 
 func TestGetUserByEmail(t *testing.T) {
 	db, mock := NewMock()
@@ -56,7 +66,7 @@ func TestGetUserByEmail(t *testing.T) {
 		repo.db.Close()
 	}()
 
-	query := "SELECT id, name, email, password, created_at, updated_at, deleted_at FROM users where email = ?"
+	query := "SELECT id, name, email, password, created_at, updated_at, deleted_at FROM users where email = $1"
 
 	rows := sqlmock.NewRows([]string{
 		"id",
@@ -76,12 +86,8 @@ func TestGetUserByEmail(t *testing.T) {
 		nil,
 	)
 
-	mock.ExpectQuery(query).WithArgs("billysutomo.53@gmail.com").WillReturnRows(rows)
+	mock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs("billysutomo.53@gmail.com").WillReturnRows(rows)
 	users, err := repo.GetUserByEmail(context.Background(), "billysutomo.53@gmail.com")
 	assert.NotEmpty(t, users)
 	assert.NoError(t, err)
 }
-
-// 'INSERT INTO users ( name, email, password, created_at, updated_at, deleted_at ) VALUES (?, ?, ?, ?, ?, ?)',
-// does not match regex
-// 'INSERT INTO users \(name, email, password, created_at, updated_at, deleted_at\) VALUES \(\?, \?, \?, \?, \?, \?\)'
