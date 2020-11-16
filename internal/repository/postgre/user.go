@@ -5,9 +5,25 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"go.uber.org/zap"
 )
+
+// UserRepository UserRepository
+type UserRepository interface {
+	CreateUser(ctx context.Context, user UserModel) error
+	GetUserByEmail(ctx context.Context, email string) (UserModel, error)
+}
+
+// UserModel UserModel
+type UserModel struct {
+	ID        int
+	Name      string
+	Email     string
+	Password  string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt sql.NullTime
+}
 
 type postgreUserRepository struct {
 	db     *sql.DB
@@ -15,12 +31,11 @@ type postgreUserRepository struct {
 }
 
 // NewPosgtgreUserRepository NewPosgtgreUserRepository
-func NewPosgtgreUserRepository(db *sql.DB, logger *zap.Logger) domain.UserRepository {
+func NewPosgtgreUserRepository(db *sql.DB, logger *zap.Logger) UserRepository {
 	return &postgreUserRepository{db, logger}
 }
 
-func (p *postgreUserRepository) CreateUser(ctx context.Context, name string, email string, password string) (bool, error) {
-	var user domain.User
+func (p *postgreUserRepository) CreateUser(ctx context.Context, user UserModel) error {
 	sqlStatement := `INSERT INTO users (
 		name, 
 		email, 
@@ -30,16 +45,23 @@ func (p *postgreUserRepository) CreateUser(ctx context.Context, name string, ema
 		deleted_at
 	) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
 
-	err := p.db.QueryRow(sqlStatement, name, email, password, time.Now(), time.Now(), nil).Scan(&user.ID)
+	err := p.db.QueryRow(
+		sqlStatement,
+		user.Name,
+		user.Email,
+		user.Password,
+		user.CreatedAt,
+		user.UpdatedAt,
+		user.DeletedAt,
+	).Scan(&user.ID)
 	if err != nil {
-		return false, err
+		return err
 	}
-
-	return true, nil
+	return nil
 }
 
-func (p *postgreUserRepository) GetUserByEmail(ctx context.Context, email string) (domain.User, error) {
-	var user domain.User
+func (p *postgreUserRepository) GetUserByEmail(ctx context.Context, email string) (UserModel, error) {
+	var user UserModel
 	sqlStatement := `SELECT id, name, email, password, created_at, updated_at, deleted_at FROM users where email = $1`
 	err := p.db.QueryRowContext(ctx, sqlStatement, email).Scan(
 		&user.ID,

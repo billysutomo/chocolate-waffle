@@ -36,12 +36,6 @@ type UserUsecase interface {
 	CreateUser(ctx context.Context, name string, email string, password string) (bool, error)
 }
 
-// UserRepository UserRepository
-type UserRepository interface {
-	CreateUser(ctx context.Context, name string, email string, password string) (bool, error)
-	GetUserByEmail(ctx context.Context, email string) (User, error)
-}
-
 // URLUsecase service
 type URLUsecase interface {
 	GetURL(ctx context.Context, nama string)

@@ -8,18 +8,19 @@ import (
 	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"github.com/billysutomo/chocolate-waffle/internal/repository/postgre"
 	"github.com/dgrijalva/jwt-go"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type userUsecase struct {
-	userRepo domain.UserRepository
+	userRepo postgre.UserRepository
 	logger   *zap.Logger
 }
 
 // NewUserUsecase NewUserUsecase
-func NewUserUsecase(a domain.UserRepository, logger *zap.Logger) domain.UserUsecase {
+func NewUserUsecase(a postgre.UserRepository, logger *zap.Logger) domain.UserUsecase {
 	return &userUsecase{
 		userRepo: a,
 		logger:   logger,
@@ -148,9 +149,16 @@ func (a *userUsecase) RefreshToken(c context.Context, refreshToken string) (stri
 
 // RegisterUser RegisterUser
 func (a *userUsecase) CreateUser(ctx context.Context, name string, email string, password string) (bool, error) {
-
 	hashPassword := hashAndSalt(password)
-	_, err := a.userRepo.CreateUser(ctx, name, email, hashPassword)
+	user := postgre.UserModel{
+		Name:      name,
+		Email:     email,
+		Password:  hashPassword,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	err := a.userRepo.CreateUser(ctx, user)
 	if err != nil {
 		return false, err
 	}
