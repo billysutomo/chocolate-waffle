@@ -19,7 +19,14 @@ func NewPosgtgreUserRepository(db *sql.DB, logger *zap.Logger) repository.UserRe
 }
 
 func (p *postgreUserRepository) CreateUser(ctx context.Context, user repository.UserModel) error {
-	sqlStatement := `INSERT INTO users (name, email, password, created_at, updated_at, deleted_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
+	sqlStatement := `INSERT INTO users (
+		name, 
+		email, 
+		password, 
+		created_at, 
+		updated_at, 
+		deleted_at
+		) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
 
 	err := p.db.QueryRow(
 		sqlStatement,

@@ -30,7 +30,14 @@ func TestCreateUser(t *testing.T) {
 		repo.db.Close()
 	}()
 
-	query := "INSERT INTO users (name, email, password, created_at, updated_at, deleted_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id"
+	query := `INSERT INTO users (
+		name, 
+		email, 
+		password, 
+		created_at, 
+		updated_at, 
+		deleted_at
+		) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
 
 	data := repository.UserModel{
 		Name:      "Billy",
