@@ -3,9 +3,8 @@ package postgre
 import (
 	"context"
 	"database/sql"
-	"time"
 
-	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"github.com/billysutomo/chocolate-waffle/internal/repository"
 	"go.uber.org/zap"
 )
 
@@ -15,19 +14,12 @@ type postgreProjectRepository struct {
 }
 
 // NewPosgtreProjectRepository NewPosgtreProjectRepository
-func NewPosgtreProjectRepository(db *sql.DB, logger *zap.Logger) domain.ProjectRepository {
+func NewPosgtreProjectRepository(db *sql.DB, logger *zap.Logger) repository.ProjectRepository {
 	return &postgreProjectRepository{db, logger}
 }
 
-func (p *postgreProjectRepository) CreateProject(
-	ctx context.Context,
-	idUser int,
-	url string,
-	profilePicture string,
-	title string,
-	description string,
-) (bool, error) {
-	var project domain.Project
+func (p *postgreProjectRepository) CreateProject(ctx context.Context, project repository.ProjectModel) error {
+	// var project domain.Project
 	sqlStatement := `INSERT INTO projects (
 		id_user, 
 		url, 
@@ -41,18 +33,18 @@ func (p *postgreProjectRepository) CreateProject(
 	err := p.db.QueryRowContext(
 		ctx,
 		sqlStatement,
-		idUser,
-		url,
-		profilePicture,
-		title,
-		description,
-		time.Now(),
-		nil,
-		nil,
+		project.IDUser,
+		project.URL,
+		project.ProfilePicture,
+		project.Title,
+		project.Description,
+		project.CreatedAt,
+		project.UpdatedAt,
+		project.DeletedAt,
 	).Scan(&project.ID)
 
 	if err != nil {
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
 }

@@ -8,12 +8,13 @@ import (
 	"testing"
 	"time"
 
+	"github.com/billysutomo/chocolate-waffle/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 )
 
-func NewMock() (*sql.DB, sqlmock.Sqlmock) {
+func NewUserMock() (*sql.DB, sqlmock.Sqlmock) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		log.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
@@ -23,7 +24,7 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 }
 
 func TestCreateUser(t *testing.T) {
-	db, mock := NewMock()
+	db, mock := NewUserMock()
 	repo := &postgreUserRepository{db, &zap.Logger{}}
 	defer func() {
 		repo.db.Close()
@@ -31,7 +32,7 @@ func TestCreateUser(t *testing.T) {
 
 	query := "INSERT INTO users (name, email, password, created_at, updated_at, deleted_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id"
 
-	data := UserModel{
+	data := repository.UserModel{
 		Name:      "Billy",
 		Email:     "billysutomo.53@gmail.com",
 		Password:  "password",
@@ -60,7 +61,7 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestGetUserByEmail(t *testing.T) {
-	db, mock := NewMock()
+	db, mock := NewProjectMock()
 	repo := &postgreUserRepository{db, &zap.Logger{}}
 	defer func() {
 		repo.db.Close()

@@ -2,32 +2,7 @@ package domain
 
 import (
 	"context"
-	"database/sql"
 )
-
-// User User
-type User struct {
-	ID        int
-	Name      string
-	Email     string
-	Password  string
-	CreatedAt sql.NullTime
-	UpdatedAt sql.NullTime
-	DeletedAt sql.NullTime
-}
-
-// Project Project
-type Project struct {
-	ID             int
-	IDUser         int
-	URL            string
-	ProfilePicture string
-	Title          string
-	Description    string
-	CreatedAt      sql.NullTime
-	UpdatedAt      sql.NullTime
-	DeletedAt      sql.NullTime
-}
 
 // UserUsecase AuthUsecase
 type UserUsecase interface {
@@ -49,11 +24,6 @@ type URLRepository interface {
 
 // ProjectUsecase ProjectUsecase
 type ProjectUsecase interface {
-	CreateProject(ctx context.Context, idUser int, url string, profilePicture string, title string, description string) (bool, error)
-}
-
-// ProjectRepository ProjectRepository
-type ProjectRepository interface {
 	CreateProject(ctx context.Context, idUser int, url string, profilePicture string, title string, description string) (bool, error)
 }
 

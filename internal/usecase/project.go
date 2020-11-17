@@ -2,18 +2,20 @@ package usecase
 
 import (
 	"context"
+	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"github.com/billysutomo/chocolate-waffle/internal/repository"
 	"go.uber.org/zap"
 )
 
 type projectUsecase struct {
-	projectRepo domain.ProjectRepository
+	projectRepo repository.ProjectRepository
 	logger      *zap.Logger
 }
 
 // NewProjectUsecase NewProjectUsecase
-func NewProjectUsecase(a domain.ProjectRepository, logger *zap.Logger) domain.ProjectUsecase {
+func NewProjectUsecase(a repository.ProjectRepository, logger *zap.Logger) domain.ProjectUsecase {
 	return &projectUsecase{
 		projectRepo: a,
 		logger:      logger,
@@ -29,7 +31,16 @@ func (a *projectUsecase) CreateProject(
 	title string,
 	description string,
 ) (bool, error) {
-	_, err := a.projectRepo.CreateProject(ctx, idUser, url, profilePicture, title, description)
+	project := repository.ProjectModel{
+		IDUser:         idUser,
+		URL:            url,
+		ProfilePicture: profilePicture,
+		Title:          title,
+		Description:    description,
+		CreatedAt:      time.Now(),
+		UpdatedAt:      time.Now(),
+	}
+	err := a.projectRepo.CreateProject(ctx, project)
 	if err != nil {
 		return false, err
 	}

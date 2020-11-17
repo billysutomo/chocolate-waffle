@@ -3,27 +3,10 @@ package postgre
 import (
 	"context"
 	"database/sql"
-	"time"
 
+	"github.com/billysutomo/chocolate-waffle/internal/repository"
 	"go.uber.org/zap"
 )
-
-// UserRepository UserRepository
-type UserRepository interface {
-	CreateUser(ctx context.Context, user UserModel) error
-	GetUserByEmail(ctx context.Context, email string) (UserModel, error)
-}
-
-// UserModel UserModel
-type UserModel struct {
-	ID        int
-	Name      string
-	Email     string
-	Password  string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt sql.NullTime
-}
 
 type postgreUserRepository struct {
 	db     *sql.DB
@@ -31,11 +14,11 @@ type postgreUserRepository struct {
 }
 
 // NewPosgtgreUserRepository NewPosgtgreUserRepository
-func NewPosgtgreUserRepository(db *sql.DB, logger *zap.Logger) UserRepository {
+func NewPosgtgreUserRepository(db *sql.DB, logger *zap.Logger) repository.UserRepository {
 	return &postgreUserRepository{db, logger}
 }
 
-func (p *postgreUserRepository) CreateUser(ctx context.Context, user UserModel) error {
+func (p *postgreUserRepository) CreateUser(ctx context.Context, user repository.UserModel) error {
 	sqlStatement := `INSERT INTO users (name, email, password, created_at, updated_at, deleted_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
 
 	err := p.db.QueryRow(
@@ -53,8 +36,8 @@ func (p *postgreUserRepository) CreateUser(ctx context.Context, user UserModel) 
 	return nil
 }
 
-func (p *postgreUserRepository) GetUserByEmail(ctx context.Context, email string) (UserModel, error) {
-	var user UserModel
+func (p *postgreUserRepository) GetUserByEmail(ctx context.Context, email string) (repository.UserModel, error) {
+	var user repository.UserModel
 	sqlStatement := `SELECT id, name, email, password, created_at, updated_at, deleted_at FROM users where email = $1`
 	err := p.db.QueryRowContext(ctx, sqlStatement, email).Scan(
 		&user.ID,
