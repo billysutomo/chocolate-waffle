@@ -4,16 +4,17 @@ import (
 	"context"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"github.com/billysutomo/chocolate-waffle/internal/domain/block/repository"
 	"go.uber.org/zap"
 )
 
 type blockUsecase struct {
-	blockRepo domain.BlockRepository
+	blockRepo repository.BlockRepository
 	logger    *zap.Logger
 }
 
 // NewBlockUsecase NewBlockUsecase
-func NewBlockUsecase(a domain.BlockRepository, logger *zap.Logger) domain.BlockUsecase {
+func NewBlockUsecase(a repository.BlockRepository, logger *zap.Logger) domain.BlockUsecase {
 	return &blockUsecase{
 		blockRepo: a,
 		logger:    logger,

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/billysutomo/chocolate-waffle/internal/repository"
+	"github.com/billysutomo/chocolate-waffle/internal/domain/user/repository"
 	"github.com/dgrijalva/jwt-go"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"

@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/billysutomo/chocolate-waffle/internal/domain"
+	"github.com/billysutomo/chocolate-waffle/internal/domain/block/repository"
 	"go.uber.org/zap"
 )
 
@@ -14,7 +14,7 @@ type postgreBlockRepository struct {
 }
 
 // NewPosgtreBlockRepository NewPosgtreBlockRepository
-func NewPosgtreBlockRepository(db *sql.DB, logger *zap.Logger) domain.BlockRepository {
+func NewPosgtreBlockRepository(db *sql.DB, logger *zap.Logger) repository.BlockRepository {
 	return &postgreBlockRepository{db, logger}
 }
 

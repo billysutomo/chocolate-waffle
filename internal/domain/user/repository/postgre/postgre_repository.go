@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/billysutomo/chocolate-waffle/internal/repository"
+	"github.com/billysutomo/chocolate-waffle/internal/domain/user/repository"
 	"go.uber.org/zap"
 )
 

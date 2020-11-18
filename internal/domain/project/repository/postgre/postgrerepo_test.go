@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/billysutomo/chocolate-waffle/internal/project/repository"
+	"github.com/billysutomo/chocolate-waffle/internal/domain/project/repository"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"

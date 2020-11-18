@@ -9,6 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ResponseError ResponseError
+type ResponseError struct {
+	Message string `json:"message"`
+}
+
 // RequestRegister RequestRegister
 type RequestRegister struct {
 	Name     string `json:"name"`
@@ -48,34 +53,6 @@ func NewUserHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.Use
 func (a *UserHandler) Private(r *gin.Context) {
 
 }
-
-// func isRequestValid(m *model.URL) (bool, error) {
-// 	var v *validator.Validate
-// 	v = validator.New()
-// 	err := v.Struct(m)
-// 	if err != nil {
-// 		return false, err
-// 	}
-// 	return true, nil
-// }
-
-// func getStatusCode(err error) int {
-// 	if err == nil {
-// 		return http.StatusOK
-// 	}
-
-// 	switch err {
-// 	case model.ErrInternalServerError:
-// 		return http.StatusInternalServerError
-// 	case model.ErrNotFound:
-// 		return http.StatusNotFound
-// 	case model.ErrConflict:
-// 		return http.StatusConflict
-// 	default:
-// 		return http.StatusInternalServerError
-
-// 	}
-// }
 
 // Register Register
 func (a *UserHandler) Register(r *gin.Context) {
