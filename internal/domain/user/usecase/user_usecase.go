@@ -8,19 +8,18 @@ import (
 	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/billysutomo/chocolate-waffle/internal/repository"
 	"github.com/dgrijalva/jwt-go"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type userUsecase struct {
-	userRepo repository.UserRepository
+	userRepo domain.UserRepository
 	logger   *zap.Logger
 }
 
 // NewUserUsecase NewUserUsecase
-func NewUserUsecase(a repository.UserRepository, logger *zap.Logger) domain.UserUsecase {
+func NewUserUsecase(a domain.UserRepository, logger *zap.Logger) domain.UserUsecase {
 	return &userUsecase{
 		userRepo: a,
 		logger:   logger,
@@ -150,7 +149,7 @@ func (a *userUsecase) RefreshToken(c context.Context, refreshToken string) (stri
 // RegisterUser RegisterUser
 func (a *userUsecase) CreateUser(ctx context.Context, name string, email string, password string) (bool, error) {
 	hashPassword := hashAndSalt(password)
-	user := repository.UserModel{
+	user := domain.UserModel{
 		Name:      name,
 		Email:     email,
 		Password:  hashPassword,

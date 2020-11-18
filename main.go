@@ -14,13 +14,17 @@ import (
 
 	_middleware "github.com/billysutomo/chocolate-waffle/internal/middleware"
 
-	_deliveryHttp "github.com/billysutomo/chocolate-waffle/internal/delivery/http"
-	_repositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/repository/postgre"
-	_usecase "github.com/billysutomo/chocolate-waffle/internal/usecase"
+	_projectDeliveryHttp "github.com/billysutomo/chocolate-waffle/internal/domain/project/delivery/http"
+	_projectRepositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/domain/project/repository/postgre"
+	_projectUsecase "github.com/billysutomo/chocolate-waffle/internal/domain/project/usecase"
 
-	_projectDeliveryHttp "github.com/billysutomo/chocolate-waffle/internal/project/delivery/http"
-	_projectRepositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/project/repository/postgre"
-	_projectUsecase "github.com/billysutomo/chocolate-waffle/internal/project/usecase"
+	_userDeliveryHttp "github.com/billysutomo/chocolate-waffle/internal/domain/user/delivery/http"
+	_userRepositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/domain/user/repository/postgre"
+	_userUsecase "github.com/billysutomo/chocolate-waffle/internal/domain/user/usecase"
+
+	_blockDeliveryHttp "github.com/billysutomo/chocolate-waffle/internal/domain/block/delivery/http"
+	_blockRepositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/domain/block/repository/postgre"
+	_blockUsecase "github.com/billysutomo/chocolate-waffle/internal/domain/block/usecase"
 )
 
 func init() {
@@ -78,9 +82,9 @@ func main() {
 	r.Use(middl.CORSMiddleware())
 
 	/* setup domain user */
-	userRepo := _repositoryPostgre.NewPosgtgreUserRepository(dbConn, loggerMgr)
-	userUcase := _usecase.NewUserUsecase(userRepo, loggerMgr)
-	_deliveryHttp.NewUserHandler(r, middl, userUcase)
+	userRepo := _userRepositoryPostgre.NewPosgtgreUserRepository(dbConn, loggerMgr)
+	userUcase := _userUsecase.NewUserUsecase(userRepo, loggerMgr)
+	_userDeliveryHttp.NewUserHandler(r, middl, userUcase)
 
 	/* setup domain project */
 	projectRepo := _projectRepositoryPostgre.NewPosgtreProjectRepository(dbConn, loggerMgr)
@@ -88,9 +92,9 @@ func main() {
 	_projectDeliveryHttp.NewProjectHandler(r, middl, projectUcase)
 
 	/* setup domain block */
-	blockRepo := _repositoryPostgre.NewPosgtreBlockRepository(dbConn, loggerMgr)
-	blockUcase := _usecase.NewBlockUsecase(blockRepo, loggerMgr)
-	_deliveryHttp.NewBlockHandler(r, middl, blockUcase)
+	blockRepo := _blockRepositoryPostgre.NewPosgtreBlockRepository(dbConn, loggerMgr)
+	blockUcase := _blockUsecase.NewBlockUsecase(blockRepo, loggerMgr)
+	_blockDeliveryHttp.NewBlockHandler(r, middl, blockUcase)
 
 	r.Run(":" + viper.GetString("PORT"))
 }

@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/billysutomo/chocolate-waffle/internal/repository"
+	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"go.uber.org/zap"
 )
 
@@ -14,11 +14,11 @@ type postgreUserRepository struct {
 }
 
 // NewPosgtgreUserRepository NewPosgtgreUserRepository
-func NewPosgtgreUserRepository(db *sql.DB, logger *zap.Logger) repository.UserRepository {
+func NewPosgtgreUserRepository(db *sql.DB, logger *zap.Logger) domain.UserRepository {
 	return &postgreUserRepository{db, logger}
 }
 
-func (p *postgreUserRepository) CreateUser(ctx context.Context, user repository.UserModel) error {
+func (p *postgreUserRepository) CreateUser(ctx context.Context, user domain.UserModel) error {
 	sqlStatement := `INSERT INTO users (
 		name, 
 		email, 
@@ -43,8 +43,8 @@ func (p *postgreUserRepository) CreateUser(ctx context.Context, user repository.
 	return nil
 }
 
-func (p *postgreUserRepository) GetUserByEmail(ctx context.Context, email string) (repository.UserModel, error) {
-	var user repository.UserModel
+func (p *postgreUserRepository) GetUserByEmail(ctx context.Context, email string) (domain.UserModel, error) {
+	var user domain.UserModel
 	sqlStatement := `SELECT id, name, email, password, created_at, updated_at, deleted_at FROM users where email = $1`
 	err := p.db.QueryRowContext(ctx, sqlStatement, email).Scan(
 		&user.ID,

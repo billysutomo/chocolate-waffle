@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/billysutomo/chocolate-waffle/internal/project/repository"
+	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
@@ -41,7 +41,7 @@ func TestCreateProject(t *testing.T) {
 		deleted_at
 	) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 
-	data := repository.ProjectModel{
+	data := domain.ProjectModel{
 		IDUser:         1,
 		URL:            "url",
 		ProfilePicture: "ProfilePicture",
