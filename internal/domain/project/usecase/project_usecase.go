@@ -5,17 +5,16 @@ import (
 	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/billysutomo/chocolate-waffle/internal/domain/project/repository"
 	"go.uber.org/zap"
 )
 
 type projectUsecase struct {
-	projectRepo repository.ProjectRepository
+	projectRepo domain.ProjectRepository
 	logger      *zap.Logger
 }
 
 // NewProjectUsecase NewProjectUsecase
-func NewProjectUsecase(a repository.ProjectRepository, logger *zap.Logger) domain.ProjectUsecase {
+func NewProjectUsecase(a domain.ProjectRepository, logger *zap.Logger) domain.ProjectUsecase {
 	return &projectUsecase{
 		projectRepo: a,
 		logger:      logger,
@@ -31,7 +30,7 @@ func (a *projectUsecase) CreateProject(
 	title string,
 	description string,
 ) (bool, error) {
-	project := repository.ProjectModel{
+	project := domain.ProjectModel{
 		IDUser:         idUser,
 		URL:            url,
 		ProfilePicture: profilePicture,

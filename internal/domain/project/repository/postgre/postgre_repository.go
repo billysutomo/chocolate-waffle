@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/billysutomo/chocolate-waffle/internal/domain/project/repository"
+	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"go.uber.org/zap"
 )
 
@@ -14,11 +14,11 @@ type postgreProjectRepository struct {
 }
 
 // NewPosgtreProjectRepository NewPosgtreProjectRepository
-func NewPosgtreProjectRepository(db *sql.DB, logger *zap.Logger) repository.ProjectRepository {
+func NewPosgtreProjectRepository(db *sql.DB, logger *zap.Logger) domain.ProjectRepository {
 	return &postgreProjectRepository{db, logger}
 }
 
-func (p *postgreProjectRepository) CreateProject(ctx context.Context, project repository.ProjectModel) error {
+func (p *postgreProjectRepository) CreateProject(ctx context.Context, project domain.ProjectModel) error {
 	// var project domain.Project
 	sqlStatement := `INSERT INTO projects (
 		id_user, 

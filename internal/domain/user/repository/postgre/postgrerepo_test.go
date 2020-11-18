@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/billysutomo/chocolate-waffle/internal/domain/user/repository"
+	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
@@ -39,7 +39,7 @@ func TestCreateUser(t *testing.T) {
 		deleted_at
 		) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
 
-	data := repository.UserModel{
+	data := domain.UserModel{
 		Name:      "Billy",
 		Email:     "billysutomo.53@gmail.com",
 		Password:  "password",
