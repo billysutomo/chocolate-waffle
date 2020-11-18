@@ -68,7 +68,7 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestGetUserByEmail(t *testing.T) {
-	db, mock := NewProjectMock()
+	db, mock := NewUserMock()
 	repo := &postgreUserRepository{db, &zap.Logger{}}
 	defer func() {
 		repo.db.Close()

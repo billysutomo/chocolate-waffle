@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
-	"github.com/billysutomo/chocolate-waffle/internal/repository"
+	"github.com/billysutomo/chocolate-waffle/internal/project/repository"
 	"go.uber.org/zap"
 )
 

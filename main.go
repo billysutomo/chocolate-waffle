@@ -17,6 +17,10 @@ import (
 	_deliveryHttp "github.com/billysutomo/chocolate-waffle/internal/delivery/http"
 	_repositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/repository/postgre"
 	_usecase "github.com/billysutomo/chocolate-waffle/internal/usecase"
+
+	_projectDeliveryHttp "github.com/billysutomo/chocolate-waffle/internal/project/delivery/http"
+	_projectRepositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/project/repository/postgre"
+	_projectUsecase "github.com/billysutomo/chocolate-waffle/internal/project/usecase"
 )
 
 func init() {
@@ -79,9 +83,9 @@ func main() {
 	_deliveryHttp.NewUserHandler(r, middl, userUcase)
 
 	/* setup domain project */
-	projectRepo := _repositoryPostgre.NewPosgtreProjectRepository(dbConn, loggerMgr)
-	projectUcase := _usecase.NewProjectUsecase(projectRepo, loggerMgr)
-	_deliveryHttp.NewProjectHandler(r, middl, projectUcase)
+	projectRepo := _projectRepositoryPostgre.NewPosgtreProjectRepository(dbConn, loggerMgr)
+	projectUcase := _projectUsecase.NewProjectUsecase(projectRepo, loggerMgr)
+	_projectDeliveryHttp.NewProjectHandler(r, middl, projectUcase)
 
 	/* setup domain block */
 	blockRepo := _repositoryPostgre.NewPosgtreBlockRepository(dbConn, loggerMgr)
