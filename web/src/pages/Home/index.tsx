@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Block } from "../../components/Block";
-import { BlockWrapper } from "../../components/BlockWrapper";
+import { Element } from "../../components/Element";
+import { ElementWrapper } from "../../components/ElementWrapper";
 
 const PageStyled = styled.div`
   background-color: #cf8383;
@@ -63,9 +63,9 @@ const Component: React.FC = () => {
           </SvgStyled>
         </SvgContainerStyled>
         <TitleStyled><h1>Title here</h1></TitleStyled>
-        <Block active={false}>+ Add Block</Block>
-        <Block active={false}>+ Add Block</Block>
-        <Block active={false}>+ Add Block</Block>
+        <Element active={false}>+ Add Element</Element>
+        <Element active={false}>+ Add Element</Element>
+        <Element active={false}>+ Add Element</Element>
       </ContainerStyled>
     </PageStyled>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
-const BlockStyled = styled.button<BlockProps>`
+const ElementStyled = styled.button<ElementProps>`
   border: 2px dashed #607d8b;
   border-radius: 10px;
   padding: 15px 20px 15px 20px;
@@ -36,27 +36,27 @@ const BlockStyled = styled.button<BlockProps>`
     `}
 `;
 
-export interface BlockProps {
+export interface ElementProps {
   children: string;
   active: boolean;
   backgroundColor?: string;
   size?: "small" | "medium" | "large";
 }
 
-export const Block: React.FC<BlockProps> = ({
+export const Element: React.FC<ElementProps> = ({
   children,
   active,
   backgroundColor,
   size = "large",
 }) => {
   return (
-    <BlockStyled size={size} active={active} backgroundColor={backgroundColor}>
+    <ElementStyled size={size} active={active} backgroundColor={backgroundColor}>
       {children}
-    </BlockStyled>
+    </ElementStyled>
   );
 };
 
-Block.propTypes = {
+Element.propTypes = {
   children: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
   backgroundColor: PropTypes.string.isRequired,

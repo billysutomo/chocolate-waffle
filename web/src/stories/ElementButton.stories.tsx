@@ -2,32 +2,32 @@ import React from "react";
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import { Story, Meta } from "@storybook/react/types-6-0";
 
-import { Block, BlockProps } from "../components/Block";
+import { Element, ElementProps } from "../components/Element";
 
 export default {
-  title: "Example/BlockButton",
-  component: Block,
+  title: "Example/ElementButton",
+  component: Element,
   argTypes: {
     backgroundColor: { control: "color" },
   },
 } as Meta;
 
-const Template: Story<BlockProps> = (args) => <Block {...args} />;
+const Template: Story<ElementProps> = (args) => <Element {...args} />;
 
 export const Large = Template.bind({});
 Large.args = {
-  children: "My Block Button",
+  children: "My Element Button",
 };
 
 export const Medium = Template.bind({});
 Medium.args = {
-  children: "My Block Button",
+  children: "My Element Button",
   size: "medium",
 };
 
 export const Small = Template.bind({});
 Small.args = {
-  children: "My Block Button",
+  children: "My Element Button",
   size: "small",
 };
 
