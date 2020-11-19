@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
 const ElementStyled = styled.button<ElementProps>`
@@ -20,12 +19,12 @@ const ElementStyled = styled.button<ElementProps>`
     outline: 0;
   }
   ${(p) =>
-    p.size === "medium" &&
+    p.size === Sizes.medium &&
     css`
       width: 177px;
     `}
   ${(p) =>
-    p.size === "small" &&
+    p.size === Sizes.small &&
     css`
       width: 112.66px;
     `}
@@ -36,30 +35,42 @@ const ElementStyled = styled.button<ElementProps>`
     `}
 `;
 
+export enum Sizes {
+  small,
+  medium,
+  large,
+}
+
+export enum Types {
+  messenger,
+  block,
+  social_link,
+  nothing,
+}
+
 export interface ElementProps {
   children: string;
   active: boolean;
   backgroundColor?: string;
-  size?: "small" | "medium" | "large";
+  size?: Sizes;
+  elementType: Types;
 }
 
 export const Element: React.FC<ElementProps> = ({
   children,
   active,
   backgroundColor,
-  size = "large",
+  size,
+  elementType,
 }) => {
   return (
-    <ElementStyled size={size} active={active} backgroundColor={backgroundColor}>
+    <ElementStyled
+      size={size}
+      active={active}
+      backgroundColor={backgroundColor}
+      elementType={elementType}
+    >
       {children}
     </ElementStyled>
   );
-};
-
-Element.propTypes = {
-  children: PropTypes.string.isRequired,
-  active: PropTypes.bool.isRequired,
-  backgroundColor: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(["small" as const, "medium" as const, "large" as const])
-    .isRequired,
 };
