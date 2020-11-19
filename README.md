@@ -34,12 +34,12 @@ each user can have one or more projects
 * profile_picture: profile picture url path 
 * title: project title
 * description: project description
-#### blocks
-Each project can have one or more blocks. 
+#### elements
+Each project can have one or more elements. 
 * id: primary key
-* id_project: project foreign key, define which project block belonging
-* ordernum: blocks ordering number from top to bottom
-* type: blocks type, [messenger, block, social_link]
+* id_project: project foreign key, define which project element belonging
+* ordernum: element ordering number from top to bottom
+* type: element type, [messenger, block, social_link]
 * body: json information, define by view
 
 

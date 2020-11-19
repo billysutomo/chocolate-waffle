@@ -46,12 +46,6 @@ func NewUserHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.Use
 	r.POST("/register", handler.Register)
 	r.POST("/login", handler.Login)
 	r.POST("/refresh-token", handler.RefreshToken)
-	r.POST("/private", mid.AuthRouteMiddleware(), handler.Private)
-}
-
-// Private Private
-func (a *UserHandler) Private(r *gin.Context) {
-
 }
 
 // Register Register

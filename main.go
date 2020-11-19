@@ -22,9 +22,9 @@ import (
 	_userRepositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/domain/user/repository/postgre"
 	_userUsecase "github.com/billysutomo/chocolate-waffle/internal/domain/user/usecase"
 
-	_blockDeliveryHttp "github.com/billysutomo/chocolate-waffle/internal/domain/block/delivery/http"
-	_blockRepositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/domain/block/repository/postgre"
-	_blockUsecase "github.com/billysutomo/chocolate-waffle/internal/domain/block/usecase"
+	_elementDeliveryHttp "github.com/billysutomo/chocolate-waffle/internal/domain/element/delivery/http"
+	_elementRepositoryPostgre "github.com/billysutomo/chocolate-waffle/internal/domain/element/repository/postgre"
+	_elementUsecase "github.com/billysutomo/chocolate-waffle/internal/domain/element/usecase"
 )
 
 func init() {
@@ -91,10 +91,10 @@ func main() {
 	projectUcase := _projectUsecase.NewProjectUsecase(projectRepo, loggerMgr)
 	_projectDeliveryHttp.NewProjectHandler(r, middl, projectUcase)
 
-	/* setup domain block */
-	blockRepo := _blockRepositoryPostgre.NewPosgtreBlockRepository(dbConn, loggerMgr)
-	blockUcase := _blockUsecase.NewBlockUsecase(blockRepo, loggerMgr)
-	_blockDeliveryHttp.NewBlockHandler(r, middl, blockUcase)
+	/* setup domain element */
+	elementRepo := _elementRepositoryPostgre.NewPosgtreElementRepository(dbConn, loggerMgr)
+	elementUcase := _elementUsecase.NewElementUsecase(elementRepo, loggerMgr)
+	_elementDeliveryHttp.NewElementHandler(r, middl, elementUcase)
 
 	r.Run(":" + viper.GetString("PORT"))
 }

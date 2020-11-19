@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE blocks (
+CREATE TABLE elements (
     id SERIAL,
     id_project INTEGER,
     ordernum INTEGER,
@@ -11,4 +11,4 @@ CREATE TABLE blocks (
 )
 
 -- migrate:down
-DROP TABLE blocks
+DROP TABLE elements
