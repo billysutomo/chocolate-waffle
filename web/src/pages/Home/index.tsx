@@ -52,8 +52,63 @@ const TitleStyled = styled.div`
     color: white;
   }
 `
+/* icon list
+- whatsapp
+- facebook
+- telegram
+- skype
+- viber
+- email
+- phone
+*/
+
+let dataDummy = [
+  {
+    "type": "messenger",
+    "messenger_type": "whatsapp",
+    "value": "081313131313",
+    "text": "text gua lho"
+  },
+  {
+    "type": "messenger",
+    "messenger_type": "facebook",
+    "value": "billysutomo",
+  },
+  {
+    "type": "messenger",
+    "messenger_type": "telegram",
+    "value": "billysutomo",
+  },
+  {
+    "type": "messenger",
+    "messenger_type": "skype",
+    "value": "billysutomo",
+  },
+  {
+    "type": "messenger",
+    "messenger_type": "viber",
+    "value": "billysutomo",
+  },
+  {
+    "type": "messenger",
+    "messenger_type": "email",
+    "value": "billysutomo.53@gmail.com",
+    "subject": "subject email"
+  },
+  {
+    "type": "messenger",
+    "messenger_type": "phone",
+    "value": "081313131313",
+  },
+]
 
 const Component: React.FC = () => {
+  const renderMessenger = () => {
+    return dataDummy.map(a => {
+      return <Element active={true}>{a.value}</Element>
+    })
+  }
+
   return (
     <PageStyled>
       <ContainerStyled>
@@ -66,6 +121,7 @@ const Component: React.FC = () => {
         <Element active={false}>+ Add Element</Element>
         <Element active={false}>+ Add Element</Element>
         <Element active={false}>+ Add Element</Element>
+        {renderMessenger()}
       </ContainerStyled>
     </PageStyled>
   );
