@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Element, Types } from "../../components/Element";
 import BasicLayout from "../../components/BasicLayout";
 
+import wa from "../../assets/whatsapp.svg";
+
 const ContainerStyled = styled.div`
   max-width: 400px;
   margin: 0 auto;
