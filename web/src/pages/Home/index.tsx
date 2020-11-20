@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Element, Types } from "../../components/Element";
-
-const PageStyled = styled.div`
-  background-color: #cf8383;
-  margin: 0 auto;
-`;
+import BasicLayout from "../../components/BasicLayout";
 
 const ContainerStyled = styled.div`
   max-width: 400px;
@@ -122,7 +118,7 @@ const Component: React.FC = () => {
   };
 
   return (
-    <PageStyled>
+    <BasicLayout backgroundColor="#cf8383">
       <ContainerStyled>
         <SvgContainerStyled>
           <SvgStyled>
@@ -151,7 +147,7 @@ const Component: React.FC = () => {
         <Element active={false}>+ Add Element</Element> */}
         {renderMessenger()}
       </ContainerStyled>
-    </PageStyled>
+    </BasicLayout>
   );
 };
 
