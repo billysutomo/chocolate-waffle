@@ -3,9 +3,15 @@
 ## Overview
 This project aims to clone shorby.com for education purpose and still in very early state, if you want to contribute please [Open Issue](https://github.com/billysutomo/chocolate-waffle/issues/new/choose) or Merge Request.
 
+![UI Image](ui.png)
+
 ## Quick Start
-* web visit [README](./web/README.md)
-* service visit [README](./web/README.md)
+### Service
+* This project use migration tools dbmate. Please install dbmate https://github.com/amacneil/dbmate
+* Run `dbmate migrate` to create database
+* run `make devservice` to run service API
+### Web
+* run `make devweb` to run web
 
 ## Tech Stack
 ### UI
@@ -42,9 +48,3 @@ Each project can have one or more elements.
 * type: element type, [messenger, block, social_link]
 * body: json information, define by view
 
-
-## Migration
-
-This project use migration tools dbmate
-1. Please install dbmate https://github.com/amacneil/dbmate
-2. Run `dbmate migrate`

@@ -37,6 +37,7 @@ module.exports = {
       },
     ],
     'react/jsx-props-no-spreading': 0,
-    '@typescript-eslint/no-use-before-define': 0
+    '@typescript-eslint/no-use-before-define': 0,
+    "react/prop-types": 0
   },
 };
