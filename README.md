@@ -3,6 +3,8 @@
 ## Overview
 This project aims to clone shorby.com for education purpose and still in very early state, if you want to contribute please [Open Issue](https://github.com/billysutomo/chocolate-waffle/issues/new/choose) or Merge Request.
 
+![UI Image](chocolate-waffle.png)
+
 ## Quick Start
 ### Service
 * This project use migration tools dbmate. Please install dbmate https://github.com/amacneil/dbmate
