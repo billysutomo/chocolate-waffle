@@ -1,13 +1,13 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-import { ReactComponent as WaLogo } from '../../assets/messengerIcons/whatsapp.svg';
-import { ReactComponent as FacebookLogo } from '../../assets/messengerIcons/facebook.svg';
-import { ReactComponent as TelegramLogo } from '../../assets/messengerIcons/telegram.svg';
-import { ReactComponent as SkypeLogo } from '../../assets/messengerIcons/skype.svg';
-import { ReactComponent as ViberLogo } from '../../assets/messengerIcons/viber.svg';
-import { ReactComponent as EmailLogo } from '../../assets/messengerIcons/email.svg';
-import { ReactComponent as PhoneLogo } from '../../assets/messengerIcons/phone.svg';
+import { ReactComponent as WhatsappIcon } from '../../assets/messengerIcons/whatsapp.svg';
+import { ReactComponent as FacebookIcon } from '../../assets/messengerIcons/facebook.svg';
+import { ReactComponent as TelegramIcon } from '../../assets/messengerIcons/telegram.svg';
+import { ReactComponent as SkypeIcon } from '../../assets/messengerIcons/skype.svg';
+import { ReactComponent as ViberIcon } from '../../assets/messengerIcons/viber.svg';
+import { ReactComponent as EmailIcon } from '../../assets/messengerIcons/email.svg';
+import { ReactComponent as PhoneIcon } from '../../assets/messengerIcons/phone.svg';
 
 const ElementStyled = styled.button<ElementProps>`
   border: 2px dashed #607d8b;
@@ -93,49 +93,49 @@ export const Element: React.FC<ElementProps> = ({
     if (messengerType == MessengerType.WHATSAPP) {
       return (
         <span>
-          <WaLogo height="24px" width="24px" style={{ verticalAlign: "middle" }} />
+          <WhatsappIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           <MessengerStyled>Whatsapps</MessengerStyled>
         </span>
       )
     } else if (messengerType == MessengerType.FACEBOOK) {
       return (
         <span>
-          <FacebookLogo height="24px" width="24px" style={{ verticalAlign: "middle" }} />
+          <FacebookIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           <MessengerStyled>Messenger</MessengerStyled>
         </span>
       )
     } else if (messengerType == MessengerType.TELEGRAM) {
       return (
         <span>
-          <TelegramLogo height="24px" width="24px" style={{ verticalAlign: "middle" }} />
+          <TelegramIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           <MessengerStyled>Telegram</MessengerStyled>
         </span>
       )
     } else if (messengerType == MessengerType.SKYPE) {
       return (
         <span>
-          <SkypeLogo height="24px" width="24px" style={{ verticalAlign: "middle" }} />
+          <SkypeIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           <MessengerStyled>Skype</MessengerStyled>
         </span>
       )
     } else if (messengerType == MessengerType.VIBER) {
       return (
         <span>
-          <ViberLogo height="24px" width="24px" style={{ verticalAlign: "middle" }} />
+          <ViberIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           <MessengerStyled>Viber</MessengerStyled>
         </span>
       )
     } else if (messengerType == MessengerType.EMAIL) {
       return (
         <span>
-          <EmailLogo height="24px" width="24px" style={{ verticalAlign: "middle" }} />
+          <EmailIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           <MessengerStyled>Email</MessengerStyled>
         </span>
       )
     } else if (messengerType == MessengerType.PHONE) {
       return (
         <span>
-          <PhoneLogo height="24px" width="24px" style={{ verticalAlign: "middle" }} />
+          <PhoneIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           <MessengerStyled>Phone</MessengerStyled>
         </span>
       )
