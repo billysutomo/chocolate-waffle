@@ -1,6 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
+import { ReactComponent as WaLogo } from '../../assets/whatsapp.svg';
+
 const ElementStyled = styled.button<ElementProps>`
   border: 2px dashed #607d8b;
   border-radius: 10px;
@@ -41,36 +43,68 @@ export enum Sizes {
   large,
 }
 
-export enum Types {
-  messenger,
-  block,
-  social_link,
-  nothing,
+export enum ElementType {
+  MESSENGER = "messenger",
+  BLOCK = "block",
+  SOCIAL_LINK = "social_link",
+  NOTHING = "nothing",
+}
+
+export enum MessengerType {
+  WHATSAPP = "whatsapp",
+  FACEBOOK = "facebook",
+  TELEGRAM = "telegram",
+  SKYPE = "skype",
+  VIBER = "viber",
+  EMAIL = "email",
+  PHONE = "phone"
 }
 
 export interface ElementProps {
-  children: string;
   active: boolean;
   backgroundColor?: string;
   size?: Sizes;
-  elementType: Types;
+  elementType: ElementType;
+  messengerType: MessengerType;
 }
 
 export const Element: React.FC<ElementProps> = ({
-  children,
   active,
   backgroundColor,
   size,
   elementType,
+  messengerType
 }) => {
+
+  const renderMessengerIcon = () => {
+    if (messengerType == MessengerType.WHATSAPP) {
+      return <WaLogo height="24px" width="24px" />
+    } else if (messengerType == MessengerType.FACEBOOK) {
+      return <WaLogo height="24px" width="24px" />
+    } else if (messengerType == MessengerType.TELEGRAM) {
+      return <WaLogo height="24px" width="24px" />
+    } else if (messengerType == MessengerType.SKYPE) {
+      return <WaLogo height="24px" width="24px" />
+    } else if (messengerType == MessengerType.VIBER) {
+      return <WaLogo height="24px" width="24px" />
+    } else if (messengerType == MessengerType.EMAIL) {
+      return <WaLogo height="24px" width="24px" />
+    } else if (messengerType == MessengerType.PHONE) {
+      return <WaLogo height="24px" width="24px" />
+    } else {
+      return null
+    }
+  }
+
   return (
     <ElementStyled
       size={size}
       active={active}
       backgroundColor={backgroundColor}
       elementType={elementType}
+      messengerType={messengerType}
     >
-      {children}
+      {renderMessengerIcon()}
     </ElementStyled>
   );
 };

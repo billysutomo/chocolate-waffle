@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Element, Types } from "../../components/Element";
+import { Element, ElementType, MessengerType } from "../../components/Element";
 import BasicLayout from "../../components/BasicLayout";
-
-import wa from "../../assets/whatsapp.svg";
 
 const ContainerStyled = styled.div`
   max-width: 400px;
@@ -48,8 +46,9 @@ const TitleStyled = styled.div`
     color: white;
   }
 `;
-/* icon list
-- whatsapp
+/*TODO: icon list
+
+- whatsapp - done
 - facebook
 - telegram
 - skype
@@ -99,23 +98,13 @@ const dataDummy = [
 ];
 
 const Component: React.FC = () => {
+
   const renderMessenger = () => {
     return dataDummy.map((a) => {
-      let messenger: Types;
-      if (a.messenger_type === "messenger") {
-        messenger = Types.messenger;
-      } else if (a.messenger_type === "block") {
-        messenger = Types.block;
-      } else if (a.messenger_type === "social_link") {
-        messenger = Types.social_link;
-      } else {
-        messenger = Types.nothing;
-      }
-      return (
-        <Element active elementType={messenger}>
-          {a.value}
-        </Element>
-      );
+      return <Element
+        active
+        elementType={a.type as ElementType}
+        messengerType={a.messenger_type as MessengerType} />;
     });
   };
 
@@ -144,9 +133,6 @@ const Component: React.FC = () => {
         <TitleStyled>
           <h1>Title here</h1>
         </TitleStyled>
-        {/* <Element active={false}>+ Add Element</Element>
-        <Element active={false}>+ Add Element</Element>
-        <Element active={false}>+ Add Element</Element> */}
         {renderMessenger()}
       </ContainerStyled>
     </BasicLayout>

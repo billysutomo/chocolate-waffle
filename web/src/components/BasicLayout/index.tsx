@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const BasicLayoutStyled = styled.div<BasicLayoutProps>`
-    height: 100vh;
+    min-height: 100vh;
     background-color: ${(p) => p.backgroundColor};
 `
 
