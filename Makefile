@@ -4,3 +4,6 @@ test:
 
 devweb:
 	npm start --prefix web
+
+devservice:
+	go run main.go
