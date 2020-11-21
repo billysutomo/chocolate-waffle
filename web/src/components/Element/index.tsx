@@ -37,6 +37,13 @@ const ElementStyled = styled.button<ElementProps>`
     `}
 `;
 
+const MessengerStyled = styled.span`
+  vertical-align: middle; 
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: .6em;
+`
+
 export enum Sizes {
   small,
   medium,
@@ -78,7 +85,12 @@ export const Element: React.FC<ElementProps> = ({
 
   const renderMessengerIcon = () => {
     if (messengerType == MessengerType.WHATSAPP) {
-      return <WaLogo height="24px" width="24px" />
+      return (
+        <span>
+          <WaLogo height="24px" width="24px" style={{ verticalAlign: "middle" }} />
+          <MessengerStyled>Whatsapps</MessengerStyled>
+        </span>
+      )
     } else if (messengerType == MessengerType.FACEBOOK) {
       return <WaLogo height="24px" width="24px" />
     } else if (messengerType == MessengerType.TELEGRAM) {
