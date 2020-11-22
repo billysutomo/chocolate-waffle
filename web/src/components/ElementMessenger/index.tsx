@@ -9,7 +9,7 @@ import { ReactComponent as ViberIcon } from '../../assets/messengerIcons/viber.s
 import { ReactComponent as EmailIcon } from '../../assets/messengerIcons/email.svg';
 import { ReactComponent as PhoneIcon } from '../../assets/messengerIcons/phone.svg';
 
-const ElementStyled = styled.button<ElementProps>`
+const ElementStyled = styled.button<ElementMessengerProps>`
   border: 2px dashed #607d8b;
   border-radius: 10px;
   padding: 15px 20px 15px 20px;
@@ -77,7 +77,7 @@ export enum MessengerType {
   PHONE = "phone"
 }
 
-export interface ElementProps {
+export interface ElementMessengerProps {
   active: boolean;
   backgroundColor?: string;
   size?: Sizes;
@@ -85,7 +85,7 @@ export interface ElementProps {
   messengerType: MessengerType;
 }
 
-export const Element: React.FC<ElementProps> = ({
+export const ElementMessenger: React.FC<ElementMessengerProps> = ({
   active,
   backgroundColor,
   size,

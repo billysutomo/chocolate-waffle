@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { Element, ElementType, MessengerType, Sizes } from "../../components/Element";
+import { ElementMessenger, ElementType, MessengerType, Sizes } from "../../components/ElementMessenger";
+import { ElementBasic } from "../../components/ElementBasic";
 import BasicLayout from "../../components/BasicLayout";
 import { ElementWrapper } from "../../components/ElementWrapper";
 
 import { ReactComponent as CameraIcon } from '../../assets/camera.svg';
+import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
 
 const ContainerStyled = styled.div`
   max-width: 386px;
@@ -49,6 +51,20 @@ const TitleStyled = styled.div`
     color: white;
   }
 `;
+
+const LogoStyled = styled.div`
+  text-align: center;
+  font-family: Montserrat;
+  font-weight: bolder;
+  text-transform: uppercase;
+  position: relative;
+  line-height: 1em;
+  color: #ffffff;
+  -webkit-transition: all .62s;
+  -o-transition: all .62s;
+  transition: all .62s;
+  padding: 16px 24px;
+`
 
 const dataDummy = [
   {
@@ -105,7 +121,7 @@ const Component: React.FC = () => {
   const renderMessenger = () => {
     const remainder: number = (dataDummy.length % 3)
     return dataDummy.map((a, i) => {
-      return <Element
+      return <ElementMessenger
         key={i}
         active
         size={findSize(i + 1, remainder)}
@@ -128,6 +144,9 @@ const Component: React.FC = () => {
         <ElementWrapper>
           {renderMessenger()}
         </ElementWrapper>
+        <ElementBasic><PlusIcon width="0.75em" height="1em" /> Add Block</ElementBasic>
+        <ElementBasic><PlusIcon width="0.75em" height="1em" /> Social Links</ElementBasic>
+        <LogoStyled>Chocolate Waffle</LogoStyled>
       </ContainerStyled>
     </BasicLayout>
   );
