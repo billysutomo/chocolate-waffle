@@ -91,7 +91,7 @@ const dataDummy = [
 
 const Component: React.FC = () => {
 
-  const isFull = (value: number, remainder: number): Sizes => {
+  const findSize = (value: number, remainder: number): Sizes => {
     if ((remainder % 2 == 0) && value <= remainder) {
       return Sizes.medium
     } else if ((remainder % 1 == 0) && value <= remainder) {
@@ -107,7 +107,7 @@ const Component: React.FC = () => {
       return <Element
         key={i}
         active
-        size={isFull(i + 1, remainder)}
+        size={findSize(i + 1, remainder)}
         elementType={a.type as ElementType}
         messengerType={a.messenger_type as MessengerType} />;
     });
