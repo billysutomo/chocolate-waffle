@@ -1,7 +1,7 @@
 # chocolate-waffle
 
 ## Overview
-This project aims to clone shorby.com for education purpose and still in very early state, if you want to contribute please [Open Issue](https://github.com/billysutomo/chocolate-waffle/issues/new/choose) or Merge Request.
+chocolate-waffle aims to clone shorby.com for education purpose. chocolate-waffle is still in very early state and under development. If you want to contribute please [Open Issue](https://github.com/billysutomo/chocolate-waffle/issues/new/choose) or Merge Request.
 
 ![UI Image](ui.png)
 
