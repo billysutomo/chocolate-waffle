@@ -9,7 +9,7 @@ import { ReactComponent as ViberIcon } from '../../assets/messengerIcons/viber.s
 import { ReactComponent as EmailIcon } from '../../assets/messengerIcons/email.svg';
 import { ReactComponent as PhoneIcon } from '../../assets/messengerIcons/phone.svg';
 
-const ElementStyled = styled.button<ElementProps>`
+const ElementStyled = styled.button<ElementMessengerProps>`
   border: 2px dashed #607d8b;
   border-radius: 10px;
   padding: 15px 20px 15px 20px;
@@ -17,6 +17,10 @@ const ElementStyled = styled.button<ElementProps>`
   text-align: center;
   margin-bottom: 16px;
   background-color: ${(p) => p.backgroundColor};
+  margin: 0 auto;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 16px;
   :hover {
     cursor: pointer;
   }
@@ -73,7 +77,7 @@ export enum MessengerType {
   PHONE = "phone"
 }
 
-export interface ElementProps {
+export interface ElementMessengerProps {
   active: boolean;
   backgroundColor?: string;
   size?: Sizes;
@@ -81,7 +85,7 @@ export interface ElementProps {
   messengerType: MessengerType;
 }
 
-export const Element: React.FC<ElementProps> = ({
+export const ElementMessenger: React.FC<ElementMessengerProps> = ({
   active,
   backgroundColor,
   size,
@@ -90,53 +94,53 @@ export const Element: React.FC<ElementProps> = ({
 }) => {
 
   const renderMessengerIcon = () => {
-    if (messengerType == MessengerType.WHATSAPP) {
+    if (messengerType === MessengerType.WHATSAPP) {
       return (
         <span>
           <WhatsappIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-          <MessengerStyled>Whatsapps</MessengerStyled>
+          {size === Sizes.large ? <MessengerStyled>Whatsapps</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.FACEBOOK) {
+    } else if (messengerType === MessengerType.FACEBOOK) {
       return (
         <span>
           <FacebookIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-          <MessengerStyled>Messenger</MessengerStyled>
+          {size === Sizes.large ? <MessengerStyled>Messenger</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.TELEGRAM) {
+    } else if (messengerType === MessengerType.TELEGRAM) {
       return (
         <span>
           <TelegramIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-          <MessengerStyled>Telegram</MessengerStyled>
+          {size === Sizes.large ? <MessengerStyled>Telegram</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.SKYPE) {
+    } else if (messengerType === MessengerType.SKYPE) {
       return (
         <span>
           <SkypeIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-          <MessengerStyled>Skype</MessengerStyled>
+          {size === Sizes.large ? <MessengerStyled>Skype</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.VIBER) {
+    } else if (messengerType === MessengerType.VIBER) {
       return (
         <span>
           <ViberIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-          <MessengerStyled>Viber</MessengerStyled>
+          {size === Sizes.large ? <MessengerStyled>Viber</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.EMAIL) {
+    } else if (messengerType === MessengerType.EMAIL) {
       return (
         <span>
           <EmailIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-          <MessengerStyled>Email</MessengerStyled>
+          {size === Sizes.large ? <MessengerStyled>Email</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.PHONE) {
+    } else if (messengerType === MessengerType.PHONE) {
       return (
         <span>
           <PhoneIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-          <MessengerStyled>Phone</MessengerStyled>
+          {size === Sizes.large ? <MessengerStyled>Phone</MessengerStyled> : null}
         </span>
       )
     } else {

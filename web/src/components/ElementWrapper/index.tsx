@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const ElementWrapperStyled = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 370px;
+  display: block;
+  max-width: 386px;
 `;
 
 export interface ElementWrapperProps {

@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { Element, ElementType, MessengerType } from "../../components/Element";
+import { ElementMessenger, ElementType, MessengerType, Sizes } from "../../components/ElementMessenger";
+import { ElementBasic } from "../../components/ElementBasic";
 import BasicLayout from "../../components/BasicLayout";
+import { ElementWrapper } from "../../components/ElementWrapper";
 
 import { ReactComponent as CameraIcon } from '../../assets/camera.svg';
+import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
 
 const ContainerStyled = styled.div`
-  max-width: 400px;
+  max-width: 386px;
   margin: 0 auto;
   padding-bottom: 16px;
   padding-top: 16px;
@@ -48,6 +51,20 @@ const TitleStyled = styled.div`
     color: white;
   }
 `;
+
+const LogoStyled = styled.div`
+  text-align: center;
+  font-family: Montserrat;
+  font-weight: bolder;
+  text-transform: uppercase;
+  position: relative;
+  line-height: 1em;
+  color: #ffffff;
+  -webkit-transition: all .62s;
+  -o-transition: all .62s;
+  transition: all .62s;
+  padding: 16px 24px;
+`
 
 const dataDummy = [
   {
@@ -91,10 +108,23 @@ const dataDummy = [
 
 const Component: React.FC = () => {
 
+  const findSize = (value: number, remainder: number): Sizes => {
+    if ((remainder % 2 === 0) && value <= remainder) {
+      return Sizes.medium
+    } else if ((remainder % 1 === 0) && value <= remainder) {
+      return Sizes.large
+    } else {
+      return Sizes.small
+    }
+  }
+
   const renderMessenger = () => {
-    return dataDummy.map((a) => {
-      return <Element
+    const remainder: number = (dataDummy.length % 3)
+    return dataDummy.map((a, i) => {
+      return <ElementMessenger
+        key={i}
         active
+        size={findSize(i + 1, remainder)}
         elementType={a.type as ElementType}
         messengerType={a.messenger_type as MessengerType} />;
     });
@@ -111,7 +141,12 @@ const Component: React.FC = () => {
         <TitleStyled>
           <h1>Title here</h1>
         </TitleStyled>
-        {renderMessenger()}
+        <ElementWrapper>
+          {renderMessenger()}
+        </ElementWrapper>
+        <ElementBasic><PlusIcon width="0.75em" height="1em" /> Add Block</ElementBasic>
+        <ElementBasic><PlusIcon width="0.75em" height="1em" /> Social Links</ElementBasic>
+        <LogoStyled>Chocolate Waffle</LogoStyled>
       </ContainerStyled>
     </BasicLayout>
   );
