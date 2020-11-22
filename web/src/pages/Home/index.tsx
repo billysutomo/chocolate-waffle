@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Element, ElementType, MessengerType } from "../../components/Element";
+import { Element, ElementType, MessengerType, Sizes } from "../../components/Element";
 import BasicLayout from "../../components/BasicLayout";
 
 import { ReactComponent as CameraIcon } from '../../assets/camera.svg';
@@ -91,10 +91,23 @@ const dataDummy = [
 
 const Component: React.FC = () => {
 
+  const isFull = (value: number, remainder: number): Sizes => {
+    if ((remainder % 2 == 0) && value <= remainder) {
+      return Sizes.medium
+    } else if ((remainder % 1 == 0) && value <= remainder) {
+      return Sizes.large
+    } else {
+      return Sizes.small
+    }
+  }
+
   const renderMessenger = () => {
-    return dataDummy.map((a) => {
+    const remainder: number = (dataDummy.length % 3)
+    return dataDummy.map((a, i) => {
       return <Element
+        key={i}
         active
+        size={isFull(i + 1, remainder)}
         elementType={a.type as ElementType}
         messengerType={a.messenger_type as MessengerType} />;
     });
