@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Element, ElementType, MessengerType, Sizes } from "../../components/Element";
 import BasicLayout from "../../components/BasicLayout";
+import { ElementWrapper } from "../../components/ElementWrapper";
 
 import { ReactComponent as CameraIcon } from '../../assets/camera.svg';
 
 const ContainerStyled = styled.div`
-  max-width: 400px;
+  max-width: 386px;
   margin: 0 auto;
   padding-bottom: 16px;
   padding-top: 16px;
@@ -92,9 +93,9 @@ const dataDummy = [
 const Component: React.FC = () => {
 
   const findSize = (value: number, remainder: number): Sizes => {
-    if ((remainder % 2 == 0) && value <= remainder) {
+    if ((remainder % 2 === 0) && value <= remainder) {
       return Sizes.medium
-    } else if ((remainder % 1 == 0) && value <= remainder) {
+    } else if ((remainder % 1 === 0) && value <= remainder) {
       return Sizes.large
     } else {
       return Sizes.small
@@ -124,7 +125,9 @@ const Component: React.FC = () => {
         <TitleStyled>
           <h1>Title here</h1>
         </TitleStyled>
-        {renderMessenger()}
+        <ElementWrapper>
+          {renderMessenger()}
+        </ElementWrapper>
       </ContainerStyled>
     </BasicLayout>
   );

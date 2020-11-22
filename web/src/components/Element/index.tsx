@@ -17,6 +17,10 @@ const ElementStyled = styled.button<ElementProps>`
   text-align: center;
   margin-bottom: 16px;
   background-color: ${(p) => p.backgroundColor};
+  margin: 0 auto;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 16px;
   :hover {
     cursor: pointer;
   }
@@ -90,49 +94,49 @@ export const Element: React.FC<ElementProps> = ({
 }) => {
 
   const renderMessengerIcon = () => {
-    if (messengerType == MessengerType.WHATSAPP) {
+    if (messengerType === MessengerType.WHATSAPP) {
       return (
         <span>
           <WhatsappIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           {size === Sizes.large ? <MessengerStyled>Whatsapps</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.FACEBOOK) {
+    } else if (messengerType === MessengerType.FACEBOOK) {
       return (
         <span>
           <FacebookIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           {size === Sizes.large ? <MessengerStyled>Messenger</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.TELEGRAM) {
+    } else if (messengerType === MessengerType.TELEGRAM) {
       return (
         <span>
           <TelegramIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           {size === Sizes.large ? <MessengerStyled>Telegram</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.SKYPE) {
+    } else if (messengerType === MessengerType.SKYPE) {
       return (
         <span>
           <SkypeIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           {size === Sizes.large ? <MessengerStyled>Skype</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.VIBER) {
+    } else if (messengerType === MessengerType.VIBER) {
       return (
         <span>
           <ViberIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           {size === Sizes.large ? <MessengerStyled>Viber</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.EMAIL) {
+    } else if (messengerType === MessengerType.EMAIL) {
       return (
         <span>
           <EmailIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
           {size === Sizes.large ? <MessengerStyled>Email</MessengerStyled> : null}
         </span>
       )
-    } else if (messengerType == MessengerType.PHONE) {
+    } else if (messengerType === MessengerType.PHONE) {
       return (
         <span>
           <PhoneIcon height="24px" width="24px" style={{ verticalAlign: "middle" }} />
