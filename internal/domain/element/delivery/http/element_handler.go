@@ -8,24 +8,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// RequestCreateElement RequestCreateElement
-type RequestCreateElement struct {
+// requestCreateElement requestCreateElement
+type requestCreateElement struct {
 	IDProject int    `json:"id_project"`
 	Ordernum  int    `json:"ordernum"`
 	Type      string `json:"type"`
-	URL       string `json:"url"`
-	Icon      string `json:"icon"`
-	Title     string `json:"title"`
+	Body      string `json:"body"`
 }
 
 // ElementHandler ElementHandler
-type ElementHandler struct {
+type elementHandler struct {
 	ElementUsecase domain.ElementUsecase
 }
 
 // NewElementHandler NewElementHandler
 func NewElementHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.ElementUsecase) {
-	handler := &ElementHandler{
+	handler := &elementHandler{
 		ElementUsecase: do,
 	}
 
@@ -33,7 +31,24 @@ func NewElementHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.
 }
 
 // CreateElement CreateElement
-func (a *ElementHandler) CreateElement(r *gin.Context) {
+func (a *elementHandler) CreateElement(r *gin.Context) {
+	var element requestCreateElement
+	errBinding := r.BindJSON(&element)
+
+	if errBinding != nil {
+		r.JSON(http.StatusBadRequest, map[string]string{
+			"message": errBinding.Error(),
+		})
+	}
+
+	_, errCreate := a.ElementUsecase.CreateElement(r, element.IDProject, element.Ordernum, element.Type, element.Body)
+
+	if errCreate != nil {
+		r.JSON(http.StatusBadRequest, map[string]string{
+			"message": errCreate.Error(),
+		})
+	}
+
 	r.JSON(http.StatusCreated, map[string]string{
 		"message": "element created",
 	})

@@ -9,37 +9,37 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ResponseError ResponseError
-type ResponseError struct {
+// responseError responseError
+type responseError struct {
 	Message string `json:"message"`
 }
 
-// RequestRegister RequestRegister
-type RequestRegister struct {
+// requestRegister requestRegister
+type requestRegister struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// RequestLogin request
-type RequestLogin struct {
+// requestLogin request
+type requestLogin struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// RequestRefreshToken RequestRefreshToken
-type RequestRefreshToken struct {
+// requestRefreshToken requestRefreshToken
+type requestRefreshToken struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-// UserHandler article handler
-type UserHandler struct {
+// userHandler article handler
+type userHandler struct {
 	UserUsecase domain.UserUsecase
 }
 
 // NewUserHandler url handler
 func NewUserHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.UserUsecase) {
-	handler := &UserHandler{
+	handler := &userHandler{
 		UserUsecase: do,
 	}
 
@@ -49,14 +49,14 @@ func NewUserHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.Use
 }
 
 // Register Register
-func (a *UserHandler) Register(r *gin.Context) {
-	var requestRegister RequestRegister
-	r.BindJSON(&requestRegister)
+func (a *userHandler) Register(r *gin.Context) {
+	var reqRegister requestRegister
+	r.BindJSON(&reqRegister)
 
-	_, err := a.UserUsecase.CreateUser(r, requestRegister.Name, requestRegister.Email, requestRegister.Password)
+	_, err := a.UserUsecase.CreateUser(r, reqRegister.Name, reqRegister.Email, reqRegister.Password)
 
 	if err != nil {
-		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
+		r.JSON(http.StatusUnauthorized, responseError{Message: err.Error()})
 		return
 	}
 	r.JSON(http.StatusCreated, map[string]string{
@@ -65,14 +65,14 @@ func (a *UserHandler) Register(r *gin.Context) {
 }
 
 // Login login
-func (a *UserHandler) Login(r *gin.Context) {
-	var requestLogin RequestLogin
-	r.BindJSON(&requestLogin)
+func (a *userHandler) Login(r *gin.Context) {
+	var reqLogin requestLogin
+	r.BindJSON(&reqLogin)
 
-	token, refreshToken, err := a.UserUsecase.Login(r, requestLogin.Email, requestLogin.Password)
+	token, refreshToken, err := a.UserUsecase.Login(r, reqLogin.Email, reqLogin.Password)
 
 	if err != nil {
-		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
+		r.JSON(http.StatusUnauthorized, responseError{Message: err.Error()})
 		return
 	}
 	r.JSON(http.StatusOK, map[string]string{
@@ -82,14 +82,14 @@ func (a *UserHandler) Login(r *gin.Context) {
 }
 
 // RefreshToken RefreshToken
-func (a *UserHandler) RefreshToken(r *gin.Context) {
-	var requestRefreshToken RequestRefreshToken
-	r.BindJSON(&requestRefreshToken)
+func (a *userHandler) RefreshToken(r *gin.Context) {
+	var reqtRefreshToken requestRefreshToken
+	r.BindJSON(&reqtRefreshToken)
 
-	token, refreshToken, err := a.UserUsecase.RefreshToken(r, requestRefreshToken.RefreshToken)
+	token, refreshToken, err := a.UserUsecase.RefreshToken(r, reqtRefreshToken.RefreshToken)
 
 	if err != nil {
-		r.JSON(http.StatusUnauthorized, ResponseError{Message: err.Error()})
+		r.JSON(http.StatusUnauthorized, responseError{Message: err.Error()})
 		return
 	}
 	r.JSON(http.StatusOK, map[string]string{
