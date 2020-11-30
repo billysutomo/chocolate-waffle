@@ -47,6 +47,4 @@ func (p *postgreElementRepository) CreateElement(
 		return err
 	}
 	return nil
-
-	return nil
 }
