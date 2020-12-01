@@ -9,30 +9,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// responseError responseError
 type responseError struct {
 	Message string `json:"message"`
 }
 
-// requestRegister requestRegister
 type requestRegister struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// requestLogin request
 type requestLogin struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// requestRefreshToken requestRefreshToken
 type requestRefreshToken struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-// userHandler article handler
 type userHandler struct {
 	UserUsecase domain.UserUsecase
 }

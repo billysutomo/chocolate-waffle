@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// requestCreateElement requestCreateElement
 type requestCreateElement struct {
 	IDProject int    `json:"id_project"`
 	Ordernum  int    `json:"ordernum"`
@@ -17,7 +16,6 @@ type requestCreateElement struct {
 	Body      string `json:"body"`
 }
 
-// ElementHandler ElementHandler
 type elementHandler struct {
 	ElementUsecase domain.ElementUsecase
 }

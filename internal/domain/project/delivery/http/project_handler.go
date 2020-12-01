@@ -8,12 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// responseError responseError
 type responseError struct {
 	Message string `json:"message"`
 }
 
-// requestProject requestProject
 type requestProject struct {
 	URL            string `json:"url"`
 	ProfilePicture string `json:"profile_picture"`
@@ -21,7 +19,6 @@ type requestProject struct {
 	Description    string `json:"description"`
 }
 
-// projectHandler projectHandler
 type projectHandler struct {
 	projectUsecase domain.ProjectUsecase
 }
