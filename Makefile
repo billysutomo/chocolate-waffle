@@ -7,3 +7,6 @@ devweb:
 
 devservice:
 	go run main.go
+
+mockingservice:
+	mockgen -destination=internal/domain/mocks/element.go -package=mocks github.com/billysutomo/chocolate-waffle/internal/domain ElementRepository

@@ -20,7 +20,15 @@ type ElementModel struct {
 
 // ElementUsecase ElementUsecase
 type ElementUsecase interface {
-	CreateElement(ctx context.Context, idProject int, ordernum int, elementType string, elementBody string) (bool, error)
+	CreateElement(
+		ctx context.Context,
+		idProject int,
+		ordernum int,
+		elementType string,
+		elementBody string,
+		createdAt time.Time,
+		updatedAt time.Time,
+	) (bool, error)
 }
 
 // ElementRepository ElementRepository

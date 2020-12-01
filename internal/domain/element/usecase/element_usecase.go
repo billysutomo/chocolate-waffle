@@ -28,14 +28,16 @@ func (a *elementUsecase) CreateElement(
 	ordernum int,
 	elementType string,
 	elementBody string,
+	createdAt time.Time,
+	updatedAt time.Time,
 ) (bool, error) {
 	element := domain.ElementModel{
 		IDProject: idProject,
 		Ordernum:  ordernum,
 		Type:      elementType,
 		Body:      elementBody,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: createdAt,
+		UpdatedAt: createdAt,
 	}
 
 	err := a.elementRepo.CreateElement(ctx, element)

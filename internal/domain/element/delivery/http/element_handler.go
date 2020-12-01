@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/billysutomo/chocolate-waffle/internal/middleware"
@@ -41,7 +42,15 @@ func (a *elementHandler) CreateElement(r *gin.Context) {
 		})
 	}
 
-	_, errCreate := a.ElementUsecase.CreateElement(r, element.IDProject, element.Ordernum, element.Type, element.Body)
+	_, errCreate := a.ElementUsecase.CreateElement(
+		r,
+		element.IDProject,
+		element.Ordernum,
+		element.Type,
+		element.Body,
+		time.Now(),
+		time.Now(),
+	)
 
 	if errCreate != nil {
 		r.JSON(http.StatusBadRequest, map[string]string{
