@@ -34,4 +34,5 @@ type ElementUsecase interface {
 // ElementRepository ElementRepository
 type ElementRepository interface {
 	CreateElement(ctx context.Context, element ElementModel) error
+	GetElementsByIDProject(ctx context.Context, idProject int) ([]ElementModel, error)
 }

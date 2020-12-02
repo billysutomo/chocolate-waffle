@@ -69,3 +69,53 @@ func TestCreateElement(t *testing.T) {
 	assert.Equal(t, nil, mock.ExpectationsWereMet())
 	assert.NoError(t, err)
 }
+
+func TestGetElementsByIDProject(t *testing.T) {
+	db, mock := NewElementMock()
+	repo := &postgreElementRepository{db, &zap.Logger{}}
+	defer func() {
+		repo.db.Close()
+	}()
+
+	query := `SELECT 
+		id_project, 
+		ordernum, 
+		type, 
+		body,
+		created_at, 
+		updated_at, 
+		deleted_at
+		FROM elements
+		WHERE id_project = $1`
+
+	rows := sqlmock.NewRows([]string{
+		"id_project",
+		"ordernum",
+		"type",
+		"body",
+		"created_at",
+		"updated_at",
+		"deleted_at",
+	}).AddRow(
+		1,
+		1,
+		"messenger",
+		"body",
+		time.Now(),
+		time.Now(),
+		nil,
+	).AddRow(
+		1,
+		2,
+		"messenger",
+		"body",
+		time.Now(),
+		time.Now(),
+		nil)
+
+	mock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(1).WillReturnRows(rows)
+	elements, err := repo.GetElementsByIDProject(context.Background(), 1)
+
+	assert.NotEmpty(t, elements)
+	assert.NoError(t, err)
+}
