@@ -78,6 +78,7 @@ func TestGetElementsByIDProject(t *testing.T) {
 	}()
 
 	query := `SELECT 
+		id,
 		id_project, 
 		ordernum, 
 		type, 
@@ -89,6 +90,7 @@ func TestGetElementsByIDProject(t *testing.T) {
 		WHERE id_project = $1`
 
 	rows := sqlmock.NewRows([]string{
+		"id",
 		"id_project",
 		"ordernum",
 		"type",
@@ -99,12 +101,14 @@ func TestGetElementsByIDProject(t *testing.T) {
 	}).AddRow(
 		1,
 		1,
+		1,
 		"messenger",
 		"body",
 		time.Now(),
 		time.Now(),
 		nil,
 	).AddRow(
+		2,
 		1,
 		2,
 		"messenger",

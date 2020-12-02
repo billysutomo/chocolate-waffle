@@ -84,9 +84,9 @@ func TestGetElementsByIDProject(t *testing.T) {
 
 		elementUsecase := NewElementUsecase(mockElementRepo, &zap.Logger{})
 
-		elements, _ := elementUsecase.GetElementsByIDProject(context.Background(), 1)
+		elements, err := elementUsecase.GetElementsByIDProject(context.Background(), 1)
 
 		assert.Equal(t, elements, elementsModel)
-		// assert.NoError(t, err)
+		assert.NoError(t, err)
 	})
 }

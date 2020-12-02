@@ -49,7 +49,7 @@ func (a *elementUsecase) CreateElement(
 }
 
 func (a *elementUsecase) GetElementsByIDProject(ctx context.Context, idProject int) ([]domain.ElementModel, error) {
-	elements, err := a.GetElementsByIDProject(ctx, idProject)
+	elements, err := a.elementRepo.GetElementsByIDProject(ctx, idProject)
 	if err != nil {
 		return nil, err
 	}

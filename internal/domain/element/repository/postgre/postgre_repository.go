@@ -53,6 +53,7 @@ func (p *postgreElementRepository) GetElementsByIDProject(ctx context.Context, i
 	var elements []domain.ElementModel
 
 	sqlStatement := `SELECT 
+		id,
 		id_project, 
 		ordernum, 
 		type, 
@@ -64,14 +65,16 @@ func (p *postgreElementRepository) GetElementsByIDProject(ctx context.Context, i
 		WHERE id_project = $1`
 
 	rows, err := p.db.QueryContext(ctx, sqlStatement, idProject)
-
 	if err != nil {
 		return nil, err
 	}
 
+	defer rows.Close()
+
 	for rows.Next() {
 		var element domain.ElementModel
-		rows.Scan(
+		if err := rows.Scan(
+			&element.ID,
 			&element.IDProject,
 			&element.Ordernum,
 			&element.Type,
@@ -79,8 +82,15 @@ func (p *postgreElementRepository) GetElementsByIDProject(ctx context.Context, i
 			&element.CreatedAt,
 			&element.UpdatedAt,
 			&element.DeletedAt,
-		)
+		); err != nil {
+			return nil, err
+		}
 		elements = append(elements, element)
+	}
+
+	rerr := rows.Close()
+	if rerr != nil {
+		return nil, err
 	}
 	return elements, nil
 }
