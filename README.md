@@ -25,7 +25,7 @@ chocolate-waffle aims to clone shorby.com for education purpose. chocolate-waffl
 
 ## ERD
 
-![ERD Image](erd.jpg)
+![ERD Image](erd.png)
 ### List Table
 #### users
 Manage users data and credential

@@ -8,27 +8,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ResponseError ResponseError
-type ResponseError struct {
+type responseError struct {
 	Message string `json:"message"`
 }
 
-// RequestProject RequestProject
-type RequestProject struct {
+type requestProject struct {
 	URL            string `json:"url"`
 	ProfilePicture string `json:"profile_picture"`
 	Title          string `json:"title"`
 	Description    string `json:"description"`
 }
 
-// ProjectHandler ProjectHandler
-type ProjectHandler struct {
+type projectHandler struct {
 	projectUsecase domain.ProjectUsecase
 }
 
 // NewProjectHandler NewProjectHandler
 func NewProjectHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.ProjectUsecase) {
-	handler := &ProjectHandler{
+	handler := &projectHandler{
 		projectUsecase: do,
 	}
 
@@ -36,23 +33,23 @@ func NewProjectHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.
 }
 
 // CreateProject CreateProject
-func (a *ProjectHandler) CreateProject(r *gin.Context) {
+func (a *projectHandler) CreateProject(r *gin.Context) {
 	id := r.GetInt("id")
 
-	var requestProject RequestProject
-	r.BindJSON(&requestProject)
+	var reqProject requestProject
+	r.BindJSON(&reqProject)
 
 	_, err := a.projectUsecase.CreateProject(
 		r,
 		id,
-		requestProject.URL,
-		requestProject.ProfilePicture,
-		requestProject.Title,
-		requestProject.Description,
+		reqProject.URL,
+		reqProject.ProfilePicture,
+		reqProject.Title,
+		reqProject.Description,
 	)
 
 	if err != nil {
-		r.JSON(http.StatusBadRequest, ResponseError{Message: err.Error()})
+		r.JSON(http.StatusBadRequest, responseError{Message: err.Error()})
 		return
 	}
 	r.JSON(http.StatusOK, map[string]string{

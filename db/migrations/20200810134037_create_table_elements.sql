@@ -4,7 +4,7 @@ CREATE TABLE elements (
     id_project INTEGER,
     ordernum INTEGER,
     type VARCHAR(255),
-    body JSONB,
+    body VARCHAR(255),
     created_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ,
     deleted_at TIMESTAMPTZ
