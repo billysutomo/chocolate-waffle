@@ -47,3 +47,11 @@ func (a *elementUsecase) CreateElement(
 	}
 	return true, nil
 }
+
+func (a *elementUsecase) GetElementsByIDProject(ctx context.Context, idProject int) ([]domain.ElementModel, error) {
+	elements, err := a.GetElementsByIDProject(ctx, idProject)
+	if err != nil {
+		return nil, err
+	}
+	return elements, nil
+}
