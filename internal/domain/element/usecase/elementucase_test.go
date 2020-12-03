@@ -80,7 +80,7 @@ func TestGetElementsByIDProject(t *testing.T) {
 	}
 
 	t.Run("success", func(t *testing.T) {
-		mockElementRepo.EXPECT().GetElementsByIDProject(context.Background(), 1).Return(elementsModel, nil)
+		mockElementRepo.EXPECT().GetByIDProject(context.Background(), 1).Return(elementsModel, nil)
 
 		elementUsecase := NewElementUsecase(mockElementRepo, &zap.Logger{})
 

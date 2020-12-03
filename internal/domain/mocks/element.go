@@ -48,17 +48,17 @@ func (mr *MockElementRepositoryMockRecorder) CreateElement(arg0, arg1 interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateElement", reflect.TypeOf((*MockElementRepository)(nil).CreateElement), arg0, arg1)
 }
 
-// GetElementsByIDProject mocks base method
-func (m *MockElementRepository) GetElementsByIDProject(arg0 context.Context, arg1 int) ([]domain.ElementModel, error) {
+// GetByIDProject mocks base method
+func (m *MockElementRepository) GetByIDProject(arg0 context.Context, arg1 int) ([]domain.ElementModel, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetElementsByIDProject", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetByIDProject", arg0, arg1)
 	ret0, _ := ret[0].([]domain.ElementModel)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetElementsByIDProject indicates an expected call of GetElementsByIDProject
-func (mr *MockElementRepositoryMockRecorder) GetElementsByIDProject(arg0, arg1 interface{}) *gomock.Call {
+// GetByIDProject indicates an expected call of GetByIDProject
+func (mr *MockElementRepositoryMockRecorder) GetByIDProject(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetElementsByIDProject", reflect.TypeOf((*MockElementRepository)(nil).GetElementsByIDProject), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByIDProject", reflect.TypeOf((*MockElementRepository)(nil).GetByIDProject), arg0, arg1)
 }

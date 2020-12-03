@@ -70,7 +70,7 @@ func TestCreateElement(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestGetElementsByIDProject(t *testing.T) {
+func TestGetByIDProject(t *testing.T) {
 	db, mock := NewElementMock()
 	repo := &postgreElementRepository{db, &zap.Logger{}}
 	defer func() {
@@ -118,7 +118,7 @@ func TestGetElementsByIDProject(t *testing.T) {
 		nil)
 
 	mock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(1).WillReturnRows(rows)
-	elements, err := repo.GetElementsByIDProject(context.Background(), 1)
+	elements, err := repo.GetByIDProject(context.Background(), 1)
 
 	assert.NotEmpty(t, elements)
 	assert.NoError(t, err)

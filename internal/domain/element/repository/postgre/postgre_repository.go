@@ -49,7 +49,7 @@ func (p *postgreElementRepository) CreateElement(
 	return nil
 }
 
-func (p *postgreElementRepository) GetElementsByIDProject(ctx context.Context, idProject int) ([]domain.ElementModel, error) {
+func (p *postgreElementRepository) GetByIDProject(ctx context.Context, idProject int) ([]domain.ElementModel, error) {
 	var elements []domain.ElementModel
 
 	sqlStatement := `SELECT 
