@@ -29,16 +29,17 @@ const ElementStyled = styled.button<ElementBasicProps>`
 `;
 
 export interface ElementBasicProps {
-  
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export const ElementBasic: React.FC<ElementBasicProps> = ({
-  children
+  children,
+  onClick
 }) => {
 
 
   return (
-    <ElementStyled>
+    <ElementStyled onClick={onClick}>
       {children}
     </ElementStyled>
   );
