@@ -2,12 +2,18 @@ package http
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/billysutomo/chocolate-waffle/internal/domain"
 	"github.com/billysutomo/chocolate-waffle/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
+
+type responseElement struct {
+	Elements []domain.ElementModel `json:"elements"`
+	Message  string                `json:"message"`
+}
 
 type requestCreateElement struct {
 	IDProject int    `json:"id_project"`
@@ -27,6 +33,7 @@ func NewElementHandler(r *gin.Engine, mid *middleware.MainMiddleware, do domain.
 	}
 
 	r.POST("/element", handler.CreateElement)
+	r.GET("/element/:idProject", handler.GetElements)
 }
 
 // CreateElement CreateElement
@@ -59,4 +66,32 @@ func (a *elementHandler) CreateElement(r *gin.Context) {
 	r.JSON(http.StatusCreated, map[string]string{
 		"message": "element created",
 	})
+}
+
+func (a *elementHandler) GetElements(r *gin.Context) {
+	idProject := r.Param("idProject")
+
+	i, errCon := strconv.Atoi(idProject)
+
+	if errCon != nil {
+		r.JSON(http.StatusBadRequest, map[string]string{
+			"message": errCon.Error(),
+		})
+	}
+
+	elements, err := a.ElementUsecase.GetElementsByIDProject(r, i)
+
+	if err != nil {
+		r.JSON(http.StatusBadRequest, map[string]string{
+			"message": err.Error(),
+		})
+	}
+
+	res := responseElement{
+		Elements: elements,
+		Message:  "Get elements success",
+	}
+
+	r.JSON(http.StatusCreated, res)
+
 }

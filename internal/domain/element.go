@@ -29,9 +29,11 @@ type ElementUsecase interface {
 		createdAt time.Time,
 		updatedAt time.Time,
 	) (bool, error)
+	GetElementsByIDProject(ctx context.Context, idProject int) ([]ElementModel, error)
 }
 
 // ElementRepository ElementRepository
 type ElementRepository interface {
 	CreateElement(ctx context.Context, element ElementModel) error
+	GetByIDProject(ctx context.Context, idProject int) ([]ElementModel, error)
 }
