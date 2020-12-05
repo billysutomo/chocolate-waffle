@@ -4,6 +4,7 @@ import { ElementMessenger, ElementType, MessengerType, Sizes } from "../../compo
 import { ElementBasic } from "../../components/ElementBasic";
 import BasicLayout from "../../components/BasicLayout";
 import { ElementWrapper } from "../../components/ElementWrapper";
+import { InputMessenger } from "../../components/InputMessenger";
 
 import { ReactComponent as CameraIcon } from '../../assets/camera.svg';
 import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
@@ -65,6 +66,45 @@ const LogoStyled = styled.div`
   transition: all .62s;
   padding: 16px 24px;
 `
+
+const MessengerSheetStyled = styled.div`
+  transform: translateZ(0);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  min-height: 100%;
+  padding-top: 23vh;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background: rgba(0,0,0,.3);
+  margin-bottom: -44px;
+  z-index: 10;
+  -webkit-transition: background-color .3s;
+  -o-transition: background-color .3s;
+  transition: background-color .3s;
+  .table-align{
+    color: #000;
+    position: relative;
+    bottom: 0;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 24px;
+    padding-bottom: calc(2em + 12px);
+    margin-bottom: 20px;
+    padding-bottom: calc(constant(safe-area-inset-bottom) + 2em + 12px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 2em + 12px);
+    -webkit-box-shadow: 0 -10px 25px rgba(0,0,0,.1);
+    box-shadow: 0 -10px 25px rgba(0,0,0,.1);
+    width: 100vw;
+    max-width: 700px;
+  }
+`
+
+
 
 const dataDummy = [
   {
@@ -147,6 +187,14 @@ const Component: React.FC = () => {
         <ElementBasic><PlusIcon width="0.75em" height="1em" /> Add Block</ElementBasic>
         <ElementBasic><PlusIcon width="0.75em" height="1em" /> Social Links</ElementBasic>
         <LogoStyled>Chocolate Waffle</LogoStyled>
+        <MessengerSheetStyled>
+          <div className="table-align">
+            <div style={{ textAlign: "center" }}>Messenger</div>
+            <InputMessenger/>
+            <InputMessenger/>
+            <InputMessenger/>
+          </div>
+        </MessengerSheetStyled>
       </ContainerStyled>
     </BasicLayout>
   );
