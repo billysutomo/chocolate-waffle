@@ -52,11 +52,38 @@ const InputMessengerStyled = styled.div`
   }
 `
 
-export interface InputMessengerProps {
+export enum InputMessengerType {
+  WHATSAPP = "whatsapp",
+  FACEBOOK = "facebook",
+  TELEGRAM = "telegram",
+  SKYPE = "skype",
+  VIBER = "viber",
+  EMAIL = "email",
+  PHONE = "phone"
+}
 
+export interface InputMessengerProps {
+  messengerType: InputMessengerType;
 }
 
 export const InputMessenger: React.FC<InputMessengerProps> = ({
+  messengerType
+}) => {
+
+  const renderInputMessenger = () => {
+    if (messengerType == InputMessengerType.WHATSAPP) {
+      return <InputWA />
+    } else if (messengerType == InputMessengerType.EMAIL) {
+      return <InputEmail />
+    } else {
+      return <InputStandard />
+    }
+  }
+  
+  return renderInputMessenger()
+}
+
+const InputWA: React.FC = ({
 
 }) => {
   return (
@@ -66,6 +93,33 @@ export const InputMessenger: React.FC<InputMessengerProps> = ({
         <input placeholder="WhatsApp phone number with country code ( +1...)" />
       </div>
       <textarea placeholder="Predefined text: e.g Give me further information about..."/>
+    </InputMessengerStyled>
+  )
+}
+
+const InputEmail: React.FC = ({
+
+}) => {
+  return (
+    <InputMessengerStyled>
+      <div className="input-group">
+        <button><WhatsappIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
+        <input placeholder="Email address" />
+      </div>
+      <textarea placeholder="Predefined text: e.g Give me further information about..."/>
+    </InputMessengerStyled>
+  )
+}
+
+const InputStandard: React.FC = ({
+
+}) => {
+  return (
+    <InputMessengerStyled>
+      <div className="input-group">
+        <button><WhatsappIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
+        <input placeholder="WhatsApp phone number with country code ( +1...)" />
+      </div>
     </InputMessengerStyled>
   )
 }

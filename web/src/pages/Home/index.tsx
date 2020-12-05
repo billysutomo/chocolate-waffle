@@ -4,7 +4,7 @@ import { ElementMessenger, ElementType, MessengerType, Sizes } from "../../compo
 import { ElementBasic } from "../../components/ElementBasic";
 import BasicLayout from "../../components/BasicLayout";
 import { ElementWrapper } from "../../components/ElementWrapper";
-import { InputMessenger } from "../../components/InputMessenger";
+import { InputMessenger, InputMessengerType } from "../../components/InputMessenger";
 
 import { ReactComponent as CameraIcon } from '../../assets/camera.svg';
 import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
@@ -190,9 +190,9 @@ const Component: React.FC = () => {
         <MessengerSheetStyled>
           <div className="table-align">
             <div style={{ textAlign: "center" }}>Messenger</div>
-            <InputMessenger/>
-            <InputMessenger/>
-            <InputMessenger/>
+            <InputMessenger messengerType={InputMessengerType.WHATSAPP}/>
+            <InputMessenger messengerType={InputMessengerType.TELEGRAM}/>
+            <InputMessenger messengerType={InputMessengerType.EMAIL}/>
           </div>
         </MessengerSheetStyled>
       </ContainerStyled>
