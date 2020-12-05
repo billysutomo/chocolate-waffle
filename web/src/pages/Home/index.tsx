@@ -190,9 +190,13 @@ const Component: React.FC = () => {
         <MessengerSheetStyled>
           <div className="table-align">
             <div style={{ textAlign: "center" }}>Messenger</div>
-            <InputMessenger messengerType={InputMessengerType.WHATSAPP}/>
-            <InputMessenger messengerType={InputMessengerType.TELEGRAM}/>
-            <InputMessenger messengerType={InputMessengerType.EMAIL}/>
+            <InputMessenger messengerType={InputMessengerType.WHATSAPP} />
+            <InputMessenger messengerType={InputMessengerType.FACEBOOK} />
+            <InputMessenger messengerType={InputMessengerType.TELEGRAM} />
+            <InputMessenger messengerType={InputMessengerType.SKYPE} />
+            <InputMessenger messengerType={InputMessengerType.VIBER} />
+            <InputMessenger messengerType={InputMessengerType.EMAIL} />
+            <InputMessenger messengerType={InputMessengerType.PHONE} />
           </div>
         </MessengerSheetStyled>
       </ContainerStyled>
