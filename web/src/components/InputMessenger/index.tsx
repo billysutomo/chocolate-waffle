@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { ReactComponent as BarIcon } from '../../assets/bar.svg';
 import { ReactComponent as WhatsappIcon } from '../../assets/messengerIcons/whatsapp.svg';
 import { ReactComponent as FacebookIcon } from '../../assets/messengerIcons/facebook.svg';
 import { ReactComponent as TelegramIcon } from '../../assets/messengerIcons/telegram.svg';
@@ -10,6 +10,7 @@ import { ReactComponent as EmailIcon } from '../../assets/messengerIcons/email.s
 import { ReactComponent as PhoneIcon } from '../../assets/messengerIcons/phone.svg';
 
 const InputMessengerStyled = styled.div`
+  flex: auto;
   .input-group{
     position: relative;
     display: -ms-flexbox;
@@ -105,7 +106,12 @@ export const InputMessenger: React.FC<InputMessengerProps> = ({
     }
   }
 
-  return renderInputMessenger()
+  return (
+    <div style={{ display: "flex", marginBottom: "1rem" }}>
+      <BarIcon height="17px" width="19px" style={{ alignSelf: "center", padding: ".4em .8em" }} />
+      {renderInputMessenger()}
+    </div>
+  )
 }
 
 const InputWA: React.FC = ({
