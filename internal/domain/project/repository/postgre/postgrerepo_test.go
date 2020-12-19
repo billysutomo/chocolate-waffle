@@ -72,3 +72,61 @@ func TestCreateProject(t *testing.T) {
 	assert.Equal(t, nil, mock.ExpectationsWereMet())
 	assert.NoError(t, err)
 }
+
+func TestGet(t *testing.T) {
+	db, mock := NewProjectMock()
+	repo := &postgreProjectRepository{db, &zap.Logger{}}
+	defer func() {
+		repo.db.Close()
+	}()
+
+	query := `SELECT 
+		id,
+		id_user, 
+		url, 
+		profile_picture, 
+		title,
+		description,
+		created_at, 
+		updated_at, 
+		deleted_at
+		FROM projects
+		WHERE id = $1`
+
+	rows := sqlmock.NewRows([]string{
+		"id",
+		"id_user",
+		"url",
+		"profile_picture",
+		"title",
+		"description",
+		"created_at",
+		"updated_at",
+		"deleted_at",
+	}).AddRow(
+		1,
+		13,
+		"url",
+		"profile",
+		"title",
+		"desc",
+		time.Now(),
+		time.Now(),
+		nil,
+	).AddRow(
+		2,
+		13,
+		"url",
+		"profile",
+		"title",
+		"desc",
+		time.Now(),
+		time.Now(),
+		nil)
+
+	mock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(1).WillReturnRows(rows)
+	elements, err := repo.Get(context.Background(), 1)
+
+	assert.NotEmpty(t, elements)
+	assert.NoError(t, err)
+}
