@@ -146,9 +146,17 @@ const dataDummy = [
   },
 ];
 
-const Component: React.FC = () => {
+class Home extends React.Component {
 
-  const findSize = (value: number, remainder: number): Sizes => {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+
+    };
+  }
+
+  findSize = (value: number, remainder: number): Sizes => {
     if ((remainder % 2 === 0) && value <= remainder) {
       return Sizes.medium
     } else if ((remainder % 1 === 0) && value <= remainder) {
@@ -158,50 +166,68 @@ const Component: React.FC = () => {
     }
   }
 
-  const renderMessenger = () => {
+  renderMessenger = () => {
     const remainder: number = (dataDummy.length % 3)
     return dataDummy.map((a, i) => {
       return <ElementMessenger
         key={i}
         active
-        size={findSize(i + 1, remainder)}
+        size={this.findSize(i + 1, remainder)}
         elementType={a.type as ElementType}
         messengerType={a.messenger_type as MessengerType} />;
     });
   };
 
-  return (
-    <BasicLayout backgroundColor="#cf8383">
-      <ContainerStyled>
-        <SvgContainerStyled>
-          <SvgStyled>
-            <CameraIcon />
-          </SvgStyled>
-        </SvgContainerStyled>
-        <TitleStyled>
-          <h1>Title here</h1>
-        </TitleStyled>
-        <ElementWrapper>
-          {renderMessenger()}
-        </ElementWrapper>
-        <ElementBasic><PlusIcon width="0.75em" height="1em" /> Add Block</ElementBasic>
-        <ElementBasic><PlusIcon width="0.75em" height="1em" /> Social Links</ElementBasic>
-        <LogoStyled>Chocolate Waffle</LogoStyled>
-        <MessengerSheetStyled>
-          <div className="table-align">
-            <div style={{ textAlign: "center" }}>Messenger</div>
-            <InputMessenger messengerType={InputMessengerType.WHATSAPP} />
-            <InputMessenger messengerType={InputMessengerType.FACEBOOK} />
-            <InputMessenger messengerType={InputMessengerType.TELEGRAM} />
-            <InputMessenger messengerType={InputMessengerType.SKYPE} />
-            <InputMessenger messengerType={InputMessengerType.VIBER} />
-            <InputMessenger messengerType={InputMessengerType.EMAIL} />
-            <InputMessenger messengerType={InputMessengerType.PHONE} />
-          </div>
-        </MessengerSheetStyled>
-      </ContainerStyled>
-    </BasicLayout>
-  );
-};
+  onDragStart = (e: any, id: any) => {
+    console.log('dragstart: ', id)
+  }
 
-export default Component;
+  render() {
+    return (
+      <BasicLayout backgroundColor="#cf8383">
+        <ContainerStyled>
+          <SvgContainerStyled>
+            <SvgStyled>
+              <CameraIcon />
+            </SvgStyled>
+          </SvgContainerStyled>
+          <TitleStyled>
+            <h1>Title here</h1>
+          </TitleStyled>
+          <ElementWrapper>
+            {this.renderMessenger()}
+          </ElementWrapper>
+          <ElementBasic><PlusIcon width="0.75em" height="1em" /> Add Block</ElementBasic>
+          <ElementBasic><PlusIcon width="0.75em" height="1em" /> Social Links</ElementBasic>
+          <LogoStyled>Chocolate Waffle</LogoStyled>
+          <MessengerSheetStyled>
+            <div className="table-align">
+              <div style={{ textAlign: "center" }}>Messenger</div>
+              {/* <InputMessenger messengerType={InputMessengerType.WHATSAPP} />
+              <InputMessenger messengerType={InputMessengerType.FACEBOOK} />
+              <InputMessenger messengerType={InputMessengerType.TELEGRAM} />
+              <InputMessenger messengerType={InputMessengerType.SKYPE} />
+              <InputMessenger messengerType={InputMessengerType.VIBER} />
+              <InputMessenger messengerType={InputMessengerType.EMAIL} />
+              <InputMessenger messengerType={InputMessengerType.PHONE} /> */}
+              <div draggable onDragStart={(e) => this.onDragStart(e, 1)}>aaaaaaa</div>
+              <div draggable>bbbbbbb</div>
+              <div draggable>ccccccc</div>
+            </div>
+          </MessengerSheetStyled>
+        </ContainerStyled>
+      </BasicLayout>
+    );
+  }
+};
+const mess = [
+  {
+    id: 1,
+    name: "billy sutomo"
+  },
+  {
+    id: 2,
+    name: "anisah vahira"
+  }
+]
+export default Home;
