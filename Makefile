@@ -10,3 +10,4 @@ devservice:
 
 mock-repo:
 	mockgen -destination=internal/domain/mocks/element.go -package=mocks github.com/billysutomo/chocolate-waffle/internal/domain ElementRepository
+	mockgen -destination=internal/domain/mocks/project.go -package=mocks github.com/billysutomo/chocolate-waffle/internal/domain ProjectRepository

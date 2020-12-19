@@ -45,3 +45,12 @@ func (a *projectUsecase) CreateProject(
 	}
 	return true, nil
 }
+
+func (a *projectUsecase) Get(ctx context.Context, id int) ([]domain.ProjectModel, error) {
+	projects, err := a.projectRepo.Get(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return projects, nil
+}

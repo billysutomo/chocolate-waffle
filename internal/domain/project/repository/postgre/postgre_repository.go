@@ -41,10 +41,58 @@ func (p *postgreProjectRepository) CreateProject(ctx context.Context, project do
 		project.CreatedAt,
 		project.UpdatedAt,
 		project.DeletedAt,
-	).Scan(&project.ID)
+	).Err()
 
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func (p *postgreProjectRepository) Get(ctx context.Context, id int) ([]domain.ProjectModel, error) {
+	var projects []domain.ProjectModel
+
+	sqlStatement := `SELECT 
+		id,
+		id_user, 
+		url, 
+		profile_picture, 
+		title,
+		description,
+		created_at, 
+		updated_at, 
+		deleted_at
+		FROM projects
+		WHERE id = $1`
+
+	rows, err := p.db.QueryContext(ctx, sqlStatement, id)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var project domain.ProjectModel
+		if err := rows.Scan(
+			&project.ID,
+			&project.IDUser,
+			&project.URL,
+			&project.ProfilePicture,
+			&project.Title,
+			&project.Description,
+			&project.CreatedAt,
+			&project.UpdatedAt,
+			&project.DeletedAt,
+		); err != nil {
+			return nil, err
+		}
+		projects = append(projects, project)
+	}
+
+	rerr := rows.Close()
+	if rerr != nil {
+		return nil, err
+	}
+	return projects, nil
 }

@@ -21,10 +21,18 @@ type ProjectModel struct {
 
 // ProjectUsecase ProjectUsecase
 type ProjectUsecase interface {
-	CreateProject(ctx context.Context, idUser int, url string, profilePicture string, title string, description string) (bool, error)
+	CreateProject(
+		ctx context.Context,
+		idUser int, url string,
+		profilePicture string,
+		title string,
+		description string,
+	) (bool, error)
+	Get(ctx context.Context, id int) ([]ProjectModel, error)
 }
 
 // ProjectRepository ProjectRepository
 type ProjectRepository interface {
 	CreateProject(ctx context.Context, project ProjectModel) error
+	Get(ctx context.Context, id int) ([]ProjectModel, error)
 }
