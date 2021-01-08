@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { ElementMessenger, ElementType, MessengerType, Sizes } from "../../components/ElementMessenger";
 import { ElementBasic } from "../../components/ElementBasic";
 import BasicLayout from "../../components/BasicLayout";
@@ -146,15 +147,57 @@ const dataDummy = [
   },
 ];
 
-class Home extends React.Component {
+const grid = 8;
 
-  constructor(props: any) {
-    super(props);
+const getItems = (count: any) =>
+  Array.from({ length: count }, (v, k) => k).map(k => ({
+    id: `item-${k}`,
+    content: `item ${k}`
+  }));
 
-    this.state = {
+const reorder = (list: any, startIndex: any, endIndex: any) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-    };
-  }
+  return result;
+};
+
+const getItemStyle = (isDragging: any, draggableStyle: any) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: "none",
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+
+  // change background colour if dragging
+  background: isDragging ? "lightgreen" : "grey",
+
+  // styles we need to apply on draggables
+  ...draggableStyle
+});
+
+const getListStyle = (isDraggingOver: any) => ({
+  background: isDraggingOver ? "lightblue" : "white",
+  padding: grid,
+  width: '100%'
+});
+
+export default class Home extends React.Component {
+
+  state = {
+    mess: [
+      {
+        id: 1,
+        name: "billy sutomo"
+      },
+      {
+        id: 2,
+        name: "anisah vahira"
+      }
+    ],
+    items: getItems(10)
+  };
+
 
   findSize = (value: number, remainder: number): Sizes => {
     if ((remainder % 2 === 0) && value <= remainder) {
@@ -178,8 +221,54 @@ class Home extends React.Component {
     });
   };
 
-  onDragStart = (e: any, id: any) => {
-    console.log('dragstart: ', id)
+  onDragEnd(result: any) {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+    const mess = reorder(
+      this.state.mess,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      mess
+    });
+  }
+
+  renderMess() {
+    return (
+      <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
+        <Droppable droppableId="droppable">
+          {(provided: any, snapshot: any) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
+              {dataDummy.map((item, index) => (
+                <Draggable key={index} draggableId={String(index)} index={index}>
+                  {(provided: any, snapshot: any) => (
+                    <InputMessenger
+                      propRef={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                      messengerType={item.messenger_type as InputMessengerType}
+                    />
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    )
   }
 
   render() {
@@ -203,16 +292,7 @@ class Home extends React.Component {
           <MessengerSheetStyled>
             <div className="table-align">
               <div style={{ textAlign: "center" }}>Messenger</div>
-              {/* <InputMessenger messengerType={InputMessengerType.WHATSAPP} />
-              <InputMessenger messengerType={InputMessengerType.FACEBOOK} />
-              <InputMessenger messengerType={InputMessengerType.TELEGRAM} />
-              <InputMessenger messengerType={InputMessengerType.SKYPE} />
-              <InputMessenger messengerType={InputMessengerType.VIBER} />
-              <InputMessenger messengerType={InputMessengerType.EMAIL} />
-              <InputMessenger messengerType={InputMessengerType.PHONE} /> */}
-              <div draggable onDragStart={(e) => this.onDragStart(e, 1)}>aaaaaaa</div>
-              <div draggable>bbbbbbb</div>
-              <div draggable>ccccccc</div>
+              {this.renderMess()}
             </div>
           </MessengerSheetStyled>
         </ContainerStyled>
@@ -220,14 +300,3 @@ class Home extends React.Component {
     );
   }
 };
-const mess = [
-  {
-    id: 1,
-    name: "billy sutomo"
-  },
-  {
-    id: 2,
-    name: "anisah vahira"
-  }
-]
-export default Home;

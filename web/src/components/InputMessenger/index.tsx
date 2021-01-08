@@ -72,10 +72,13 @@ export enum InputMessengerType {
 
 export interface InputMessengerProps {
   messengerType: InputMessengerType;
+  propRef: React.RefObject<HTMLDivElement>;
 }
 
 export const InputMessenger: React.FC<InputMessengerProps> = ({
-  messengerType
+  messengerType,
+  propRef,
+  ...props
 }) => {
 
   const findIcon = (type: InputMessengerType): React.SVGProps<SVGAElement> => {
@@ -107,7 +110,7 @@ export const InputMessenger: React.FC<InputMessengerProps> = ({
   }
 
   return (
-    <div style={{ display: "flex", marginBottom: "1rem" }}>
+    <div style={{ display: "flex", marginBottom: "1rem" }} ref={propRef} {...props}>
       <BarIcon height="17px" width="19px" style={{ alignSelf: "center", padding: ".4em .8em" }} />
       {renderInputMessenger()}
     </div>
@@ -115,7 +118,6 @@ export const InputMessenger: React.FC<InputMessengerProps> = ({
 }
 
 const InputWA: React.FC = ({
-
 }) => {
   return (
     <InputMessengerStyled>
@@ -129,10 +131,9 @@ const InputWA: React.FC = ({
 }
 
 const InputEmail: React.FC = ({
-
 }) => {
   return (
-    <InputMessengerStyled>
+    <InputMessengerStyled >
       <div className="input-group">
         <button><EmailIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
         <input placeholder="Email address" />
@@ -143,14 +144,14 @@ const InputEmail: React.FC = ({
 }
 
 interface InputStandardProps {
-  icon: React.SVGProps<SVGAElement>
+  icon: React.SVGProps<SVGAElement>;
 }
 
 const InputStandard: React.FC<InputStandardProps> = ({
   icon
 }) => {
   return (
-    <InputMessengerStyled>
+    <InputMessengerStyled >
       <div className="input-group">
         <button>{icon}</button>
         <input placeholder="WhatsApp phone number with country code ( +1...)" />
