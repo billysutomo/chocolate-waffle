@@ -13,8 +13,6 @@ const InputMessengerStyled = styled.div`
   flex: auto;
   .input-group{
     position: relative;
-    display: -ms-flexbox;
-    display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     -ms-flex-align: stretch;
@@ -81,44 +79,34 @@ export const InputMessenger: React.FC<InputMessengerProps> = ({
   ...props
 }) => {
 
-  const findIcon = (type: InputMessengerType): React.SVGProps<SVGAElement> => {
-    if (type === InputMessengerType.FACEBOOK) {
-      return <FacebookIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-    } else if (type === InputMessengerType.TELEGRAM) {
-      return <TelegramIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-    } else if (type === InputMessengerType.SKYPE) {
-      return <SkypeIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-    } else if (type === InputMessengerType.VIBER) {
-      return <ViberIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-    } else {
-      return <PhoneIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} />
-    }
-  }
-
-  const renderInputMessenger = () => {
-    if (messengerType == InputMessengerType.WHATSAPP) {
-      return <InputWA />
-    } else if (messengerType == InputMessengerType.EMAIL) {
-      return <InputEmail />
-    } else {
-      const icon = findIcon(messengerType);
-
-      return <InputStandard
-        icon={icon}
-      />
+  const renderInputMessenger = (type: InputMessengerType) => {
+    switch (type) {
+      case InputMessengerType.WHATSAPP:
+        return <InputWhatsapp />
+      case InputMessengerType.FACEBOOK:
+        return <InputFacebookMesseger />
+      case InputMessengerType.TELEGRAM:
+        return <InputTelegram />
+      case InputMessengerType.SKYPE:
+        return <InputSkype />
+      case InputMessengerType.VIBER:
+        return <InputViber />
+      case InputMessengerType.EMAIL:
+        return <InputEmail />
+      case InputMessengerType.PHONE:
+        return <InputPhone />
     }
   }
 
   return (
     <div style={{ display: "flex", marginBottom: "1rem" }} ref={propRef} {...props}>
       <BarIcon height="17px" width="19px" style={{ alignSelf: "center", padding: ".4em .8em" }} />
-      {renderInputMessenger()}
+      {renderInputMessenger(messengerType)}
     </div>
   )
 }
 
-const InputWA: React.FC = ({
-}) => {
+const InputWhatsapp: React.FC = ({ }) => {
   return (
     <InputMessengerStyled>
       <div className="input-group">
@@ -126,6 +114,49 @@ const InputWA: React.FC = ({
         <input placeholder="WhatsApp phone number with country code ( +1...)" />
       </div>
       <textarea placeholder="Predefined text: e.g Give me further information about..." />
+    </InputMessengerStyled>
+  )
+}
+const InputFacebookMesseger: React.FC = ({ }) => {
+  return (
+    <InputMessengerStyled>
+      <div className="input-group">
+        <button><FacebookIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
+        <input placeholder="Messenger/Facebook username" />
+      </div>
+    </InputMessengerStyled>
+  )
+}
+
+const InputTelegram: React.FC = ({ }) => {
+  return (
+    <InputMessengerStyled>
+      <div className="input-group">
+        <button><TelegramIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
+        <input placeholder="Telegram username" />
+      </div>
+    </InputMessengerStyled>
+  )
+}
+
+const InputSkype: React.FC = ({ }) => {
+  return (
+    <InputMessengerStyled>
+      <div className="input-group">
+        <button><SkypeIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
+        <input placeholder="Skype username" />
+      </div>
+    </InputMessengerStyled>
+  )
+}
+
+const InputViber: React.FC = ({ }) => {
+  return (
+    <InputMessengerStyled>
+      <div className="input-group">
+        <button><ViberIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
+        <input placeholder="Viber number" />
+      </div>
     </InputMessengerStyled>
   )
 }
@@ -138,23 +169,17 @@ const InputEmail: React.FC = ({
         <button><EmailIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
         <input placeholder="Email address" />
       </div>
-      <textarea placeholder="Predefined text: e.g Give me further information about..." />
+      <textarea placeholder="Subject:" />
     </InputMessengerStyled>
   )
 }
 
-interface InputStandardProps {
-  icon: React.SVGProps<SVGAElement>;
-}
-
-const InputStandard: React.FC<InputStandardProps> = ({
-  icon
-}) => {
+const InputPhone: React.FC = ({ }) => {
   return (
-    <InputMessengerStyled >
+    <InputMessengerStyled>
       <div className="input-group">
-        <button>{icon}</button>
-        <input placeholder="WhatsApp phone number with country code ( +1...)" />
+        <button><PhoneIcon fill="red" height="24px" width="24px" style={{ verticalAlign: "middle" }} /></button>
+        <input placeholder="Phone number with country code (+1...)" />
       </div>
     </InputMessengerStyled>
   )

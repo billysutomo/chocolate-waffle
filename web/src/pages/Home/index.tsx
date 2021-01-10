@@ -105,81 +105,10 @@ const MessengerSheetStyled = styled.div`
   }
 `
 
-
-
-const dataDummy = [
-  {
-    type: "messenger",
-    messenger_type: "whatsapp",
-    value: "081313131313",
-    text: "text gua lho",
-  },
-  {
-    type: "messenger",
-    messenger_type: "facebook",
-    value: "billysutomo",
-  },
-  {
-    type: "messenger",
-    messenger_type: "telegram",
-    value: "billysutomo",
-  },
-  {
-    type: "messenger",
-    messenger_type: "skype",
-    value: "billysutomo",
-  },
-  {
-    type: "messenger",
-    messenger_type: "viber",
-    value: "billysutomo",
-  },
-  {
-    type: "messenger",
-    messenger_type: "email",
-    value: "billysutomo.53@gmail.com",
-    subject: "subject email",
-  },
-  {
-    type: "messenger",
-    messenger_type: "phone",
-    value: "081313131313",
-  },
-];
-
-const grid = 8;
-
-const getItems = (count: any) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k}`,
-    content: `item ${k}`
-  }));
-
-const reorder = (list: any, startIndex: any, endIndex: any) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
 const getItemStyle = (isDragging: any, draggableStyle: any) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
-
-  // styles we need to apply on draggables
+  display: 'flex',
+  marginBottom: '1rem',
   ...draggableStyle
-});
-
-const getListStyle = (isDraggingOver: any) => ({
-  background: isDraggingOver ? "lightblue" : "white",
-  padding: grid,
-  width: '100%'
 });
 
 export default class Home extends React.Component {
@@ -187,15 +116,43 @@ export default class Home extends React.Component {
   state = {
     mess: [
       {
-        id: 1,
-        name: "billy sutomo"
+        type: "messenger",
+        messenger_type: "whatsapp",
+        value: "081313131313",
+        text: "text gua lho",
       },
       {
-        id: 2,
-        name: "anisah vahira"
-      }
-    ],
-    items: getItems(10)
+        type: "messenger",
+        messenger_type: "facebook",
+        value: "billysutomo",
+      },
+      {
+        type: "messenger",
+        messenger_type: "telegram",
+        value: "billysutomo",
+      },
+      {
+        type: "messenger",
+        messenger_type: "skype",
+        value: "billysutomo",
+      },
+      {
+        type: "messenger",
+        messenger_type: "viber",
+        value: "billysutomo",
+      },
+      {
+        type: "messenger",
+        messenger_type: "email",
+        value: "billysutomo.53@gmail.com",
+        subject: "subject email",
+      },
+      {
+        type: "messenger",
+        messenger_type: "phone",
+        value: "081313131313",
+      },
+    ]
   };
 
 
@@ -210,8 +167,9 @@ export default class Home extends React.Component {
   }
 
   renderMessenger = () => {
-    const remainder: number = (dataDummy.length % 3)
-    return dataDummy.map((a, i) => {
+    const { mess } = this.state;
+    const remainder: number = (mess.length % 3)
+    return mess.map((a, i) => {
       return <ElementMessenger
         key={i}
         active
@@ -221,12 +179,19 @@ export default class Home extends React.Component {
     });
   };
 
+  reorder = (list: any, startIndex: any, endIndex: any) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+  
+    return result;
+  };
+
   onDragEnd(result: any) {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
-    const mess = reorder(
+    const mess = this.reorder(
       this.state.mess,
       result.source.index,
       result.destination.index
@@ -238,6 +203,7 @@ export default class Home extends React.Component {
   }
 
   renderMess() {
+    const { mess } = this.state;
     return (
       <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
         <Droppable droppableId="droppable">
@@ -245,9 +211,8 @@ export default class Home extends React.Component {
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
             >
-              {dataDummy.map((item, index) => (
+              {mess.map((item, index) => (
                 <Draggable key={index} draggableId={String(index)} index={index}>
                   {(provided: any, snapshot: any) => (
                     <InputMessenger
